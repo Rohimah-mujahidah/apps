@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tracker Hafalan Qur'an & Pelajaran</title>
+    <title>Tracker Hafalan Qur'an & Pelajaran Kuttab Al Ikhlas</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Menggunakan Nunito yang bersahabat dan enak dibaca -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
@@ -16,7 +16,7 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
+                        sans: ['Nunito', 'sans-serif'],
                     },
                     colors: {
                         islamic: {
@@ -68,8 +68,8 @@
         <header class="bg-islamic-800 text-white shadow-md sticky top-0 z-30">
             <div class="px-5 py-4 flex items-center justify-between">
                 <div class="flex items-center gap-2.5">
-                    <i class="ph-fill ph-book-open-text text-2xl text-islamic-100"></i>
-                    <h1 class="text-lg font-bold tracking-wide leading-tight" id="header-title">Tracker<br><span class="text-yellow-400 text-sm">Hafalan</span></h1>
+                    <img src="https://scontent.fjed6-2.fna.fbcdn.net/v/t39.30808-1/495175203_664562159804553_2414069775108599118_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=109&ccb=1-7&_nc_sid=1d2534&_nc_ohc=Z0d_y82y7H0Q7kNvwGKFxFv&_nc_oc=AdrIgyoiOqwPiP80G6_dQILrQy7VwTrQc5sx14KKUsLzNMFkKEtKfk_Ehm82zHiM1hM&_nc_zt=24&_nc_ht=scontent.fjed6-2.fna&_nc_gid=eiIHA7DNOBkiYkgGrZsSaQ&_nc_ss=7a2a8&oh=00_Af72XKAUBvGxfJaL42_f-8svmkh4WohZwDJUyPTeqU1-1Q&oe=69FD5A5E" alt="Logo" class="w-10 h-10 rounded-full border border-islamic-100 object-cover bg-white shadow-sm">
+                    <h1 class="text-lg font-bold tracking-wide leading-tight" id="header-title">Tracker Penilaian Santri<br><span class="text-yellow-400 text-sm">Kuttab Al Ikhlas Semarang</span></h1>
                 </div>
             </div>
         </header>
@@ -376,6 +376,19 @@
             localStorage.setItem('tracker_hafalans', JSON.stringify(hafalans));
         }
 
+        /* --- HELPER FORMAT KELAS --- */
+        function formatKelas(str) {
+            if (!str) return '';
+            return str.split(' ').map(word => {
+                // Format gabungan angka huruf (misal: 7a -> 7A, 9b -> 9B)
+                if (word.match(/^[0-9]+[a-zA-Z]+$/)) return word.toUpperCase(); 
+                // Format angka romawi SMP/SMA (I - XII)
+                if (word.match(/^(x{0,1})(ix|iv|v?i{0,3})$/i)) return word.toUpperCase(); 
+                // Standar Proper Case
+                return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+            }).join(' ');
+        }
+
         /* --- WHATSAPP SHARING LOGIC --- */
         function shareWhatsApp(santriId) {
             const s = santris.find(x => x.id === santriId);
@@ -558,7 +571,8 @@
             e.preventDefault();
             const id = document.getElementById('santri-id').value;
             const nama = document.getElementById('santri-nama').value.trim();
-            const kelas = document.getElementById('santri-kelas').value.trim().toUpperCase();
+            // Menggunakan fungsi formatKelas() untuk proper case cerdas
+            const kelas = formatKelas(document.getElementById('santri-kelas').value.trim());
             const target = document.getElementById('santri-target').value.trim();
 
             if(id) { // Edit
