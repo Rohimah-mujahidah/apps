@@ -172,8 +172,9 @@
             const [showTargetReached, setShowTargetReached] = useState(false);
             const [animatingTap, setAnimatingTap] = useState(false);
 
-            // --- AUDIO CONTEXT ---
+            // --- REFS ---
             const audioCtxRef = useRef(null);
+            const lastTapTimeRef = useRef(0); // Referensi untuk menahan sentuhan ganda
 
             // --- THEME DEFINITION (Warna Tetap Sama) ---
             const theme = useMemo(() => ({
@@ -304,7 +305,17 @@
 
             // --- EVENT HANDLERS ---
             const handleTap = useCallback((e) => {
-                if (e) e.preventDefault();
+                // Prevent default pada touchstart untuk menghindari double-trigger dengan onClick bawaan browser
+                if (e && e.type === 'touchstart' && e.cancelable) {
+                    e.preventDefault();
+                }
+
+                const now = Date.now();
+                // Membatasi tekanan ganda dengan memberi jeda minimal 150ms 
+                if (now - lastTapTimeRef.current < 150) {
+                    return; 
+                }
+                lastTapTimeRef.current = now;
                 
                 // Animation Trigger
                 setAnimatingTap(true);
@@ -526,11 +537,11 @@
                                     onTouchStart={handleTap}
                                     className={`relative bg-gradient-feminine text-white flex items-center justify-center overflow-hidden group outline-none select-none touch-manipulation transform transition-all duration-200 ${animatingTap ? 'scale-95 shadow-inner' : 'scale-100 shadow-[0_15px_35px_rgba(140,82,255,0.4)]'} ${activeShape.class}`}
                                 >
-                                    {/* Ripple Layer */}
-                                    <div className={`absolute inset-0 bg-white/20 transition-opacity duration-150 ${animatingTap ? 'opacity-100' : 'opacity-0'}`}></div>
+                                    {/* Ripple Layer (pointer-events-none agar tidak menghalangi sentuhan) */}
+                                    <div className={`pointer-events-none absolute inset-0 bg-white/20 transition-opacity duration-150 ${animatingTap ? 'opacity-100' : 'opacity-0'}`}></div>
                                     
-                                    {/* Inner Text with optional counter-rotation */}
-                                    <span className={`text-2xl font-bold tracking-widest uppercase opacity-90 drop-shadow-md z-10 ${activeShape.innerClass}`}>
+                                    {/* Inner Text with optional counter-rotation (pointer-events-none agar bagian tengah tetap sensitif) */}
+                                    <span className={`pointer-events-none text-2xl font-bold tracking-widest uppercase opacity-90 drop-shadow-md z-10 ${activeShape.innerClass}`}>
                                         TAP
                                     </span>
                                 </button>
