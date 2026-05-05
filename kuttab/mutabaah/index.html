@@ -6,26 +6,41 @@
     <title>Tracker Hafalan Qur'an & Pelajaran Kuttab Al Ikhlas</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Menggunakan Nunito yang bersahabat dan enak dibaca -->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
                         sans: ['Nunito', 'sans-serif'],
                     },
                     colors: {
-                        islamic: {
-                            50: '#f0fdf4',
-                            100: '#dcfce7',
-                            500: '#22c55e',
-                            600: '#16a34a',
-                            700: '#15803d',
-                            800: '#166534',
+                        brand: {
+                            50: 'var(--brand-50)',
+                            100: 'var(--brand-100)',
+                            200: 'var(--brand-200)',
+                            500: 'var(--brand-500)',
+                            600: 'var(--brand-600)',
+                            700: 'var(--brand-700)',
+                            800: 'var(--brand-800)',
+                        },
+                        glass: {
+                            bg: 'var(--glass-bg)',
+                            border: 'var(--glass-border)'
+                        },
+                        surface: {
+                            bg: 'var(--surface-bg)',
+                            muted: 'var(--surface-muted)',
+                            border: 'var(--input-border)'
+                        },
+                        txt: {
+                            main: 'var(--text-main)',
+                            muted: 'var(--text-muted)'
                         }
                     }
                 }
@@ -33,17 +48,113 @@
         }
     </script>
     <style>
+        :root {
+            /* Tema Feminin (Default Light) */
+            --bg-base: #fdf4ff; /* fuchsia-50 */
+            --blob-1: #d099ff;
+            --blob-2: #8c52ff;
+            --blob-3: #f472b6;
+
+            --brand-50: #faf5ff;
+            --brand-100: #f3e8ff;
+            --brand-200: #e9d5ff;
+            --brand-500: #a855f7;
+            --brand-600: #8c52ff; /* Primary */
+            --brand-700: #7e22ce;
+            --brand-800: #6b21a8;
+
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --shadow-color: rgba(140, 82, 255, 0.15);
+
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --surface-bg: rgba(255, 255, 255, 0.85);
+            --surface-muted: rgba(243, 244, 246, 0.6);
+            --input-border: rgba(229, 231, 235, 0.8);
+        }
+
+        :root[data-theme="masculine"] {
+            /* Tema Maskulin (Light) */
+            --bg-base: #f0f9ff;
+            --blob-1: #38bdf8;
+            --blob-2: #2563eb;
+            --blob-3: #818cf8;
+
+            --brand-50: #eff6ff;
+            --brand-100: #dbeafe;
+            --brand-200: #bfdbfe;
+            --brand-500: #3b82f6;
+            --brand-600: #2563eb; /* Primary */
+            --brand-700: #1d4ed8;
+            --brand-800: #1e40af;
+
+            --shadow-color: rgba(37, 99, 235, 0.15);
+        }
+
+        .dark {
+            /* Tema Feminin (Dark #1a1128) */
+            --bg-base: #1a1128;
+            --blob-1: #7e22ce;
+            --blob-2: #4c1d95;
+            --blob-3: #831843;
+
+            --brand-50: #3b0764;
+            --brand-100: #4c1d95;
+            --brand-200: #5b21b6;
+            --brand-500: #8b5cf6;
+            --brand-600: #a78bfa;
+            --brand-700: #c4b5fd;
+            --brand-800: #ddd6fe;
+
+            --glass-bg: rgba(30, 20, 50, 0.55);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --shadow-color: rgba(0, 0, 0, 0.4);
+
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --surface-bg: rgba(0, 0, 0, 0.3);
+            --surface-muted: rgba(0, 0, 0, 0.4);
+            --input-border: rgba(255, 255, 255, 0.1);
+        }
+
+        .dark[data-theme="masculine"] {
+            /* Tema Maskulin (Dark) */
+            --bg-base: #020617; 
+            --blob-1: #0369a1;
+            --blob-2: #1e3a8a;
+            --blob-3: #312e81;
+
+            --brand-50: #1e3a8a;
+            --brand-100: #1e40af;
+            --brand-200: #1d4ed8;
+            --brand-500: #3b82f6;
+            --brand-600: #60a5fa;
+            --brand-700: #93c5fd;
+            --brand-800: #bfdbfe;
+            
+            --glass-bg: rgba(15, 23, 42, 0.6);
+        }
+
         body {
-            background-color: #f0fdf4;
-            background-image: radial-gradient(#dcfce7 1px, transparent 1px);
-            background-size: 20px 20px;
+            background-color: var(--bg-base);
+            transition: background-color 0.5s ease;
         }
         
         .glass-panel {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px 0 var(--shadow-color);
+            transition: all 0.3s ease;
+        }
+
+        .modal-glass {
+            background: var(--surface-bg);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-top: 1px solid var(--glass-border);
         }
 
         /* Animations */
@@ -52,24 +163,47 @@
         @keyframes slideIn { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         @keyframes slideOut { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-100%); opacity: 0; } }
 
-        .progress-bar-animated { transition: width 1s ease-in-out; }
-        
-        /* Hide scrollbar for clean UI */
+        @keyframes blob-float {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob { animation: blob-float 10s infinite alternate ease-in-out; }
+        .animation-delay-2000 { animation-delay: 2s; }
+        .animation-delay-4000 { animation-delay: 4s; }
+
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="text-gray-800 antialiased min-h-screen bg-gray-100 flex justify-center">
+<body class="text-txt-main antialiased min-h-screen flex justify-center selection:bg-brand-500 selection:text-white">
+
+    <!-- Decorative Animated Blobs Background -->
+    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none max-w-md mx-auto w-full">
+        <div class="absolute top-[-10%] left-[-20%] w-80 h-80 rounded-full filter blur-[80px] opacity-60 bg-[var(--blob-1)] animate-blob"></div>
+        <div class="absolute top-[30%] right-[-20%] w-72 h-72 rounded-full filter blur-[80px] opacity-50 bg-[var(--blob-2)] animate-blob animation-delay-2000"></div>
+        <div class="absolute bottom-[-10%] left-[10%] w-80 h-80 rounded-full filter blur-[90px] opacity-40 bg-[var(--blob-3)] animate-blob animation-delay-4000"></div>
+    </div>
 
     <!-- Mobile App Container -->
-    <div class="max-w-md w-full bg-[#f0fdf4] min-h-screen relative shadow-2xl flex flex-col overflow-x-hidden">
+    <div class="max-w-md w-full min-h-screen relative flex flex-col overflow-x-hidden z-10">
         
-        <!-- Header -->
-        <header class="bg-islamic-800 text-white shadow-md sticky top-0 z-30">
-            <div class="px-5 py-4 flex items-center justify-between">
+        <!-- Header Glass -->
+        <header class="glass-panel rounded-b-3xl sticky top-0 z-30 mx-2 mt-2 border-t-0 shadow-sm">
+            <div class="px-4 py-3 flex items-center justify-between">
                 <div class="flex items-center gap-2.5">
-                    <img src="https://scontent.fjed6-2.fna.fbcdn.net/v/t39.30808-1/495175203_664562159804553_2414069775108599118_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=109&ccb=1-7&_nc_sid=1d2534&_nc_ohc=Z0d_y82y7H0Q7kNvwGKFxFv&_nc_oc=AdrIgyoiOqwPiP80G6_dQILrQy7VwTrQc5sx14KKUsLzNMFkKEtKfk_Ehm82zHiM1hM&_nc_zt=24&_nc_ht=scontent.fjed6-2.fna&_nc_gid=eiIHA7DNOBkiYkgGrZsSaQ&_nc_ss=7a2a8&oh=00_Af72XKAUBvGxfJaL42_f-8svmkh4WohZwDJUyPTeqU1-1Q&oe=69FD5A5E" alt="Logo" class="w-10 h-10 rounded-full border border-islamic-100 object-cover bg-white shadow-sm">
-                    <h1 class="text-lg font-bold tracking-wide leading-tight" id="header-title">Tracker Penilaian Santri<br><span class="text-yellow-400 text-sm">Kuttab Al Ikhlas Semarang</span></h1>
+                    <img src="https://scontent.fjed6-2.fna.fbcdn.net/v/t39.30808-1/495175203_664562159804553_2414069775108599118_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=109&ccb=1-7&_nc_sid=1d2534&_nc_ohc=Z0d_y82y7H0Q7kNvwGKFxFv&_nc_oc=AdrIgyoiOqwPiP80G6_dQILrQy7VwTrQc5sx14KKUsLzNMFkKEtKfk_Ehm82zHiM1hM&_nc_zt=24&_nc_ht=scontent.fjed6-2.fna&_nc_gid=eiIHA7DNOBkiYkgGrZsSaQ&_nc_ss=7a2a8&oh=00_Af72XKAUBvGxfJaL42_f-8svmkh4WohZwDJUyPTeqU1-1Q&oe=69FD5A5E" alt="Logo" class="w-10 h-10 rounded-full border border-brand-200 object-cover bg-white shadow-md">
+                    <h1 class="text-[15px] font-bold tracking-wide leading-tight" id="header-title">Tracker Hafalan<br><span class="text-brand-500 text-xs font-extrabold uppercase">Kuttab Al Ikhlas</span></h1>
+                </div>
+                <!-- Theme Toggles -->
+                <div class="flex gap-1.5">
+                    <button onclick="toggleThemeColor()" class="w-8 h-8 rounded-full bg-surface-muted border border-surface-border flex items-center justify-center text-brand-600 hover:bg-surface-bg transition-colors shadow-sm" title="Ganti Tema Warna">
+                        <i class="ph-fill ph-palette"></i>
+                    </button>
+                    <button onclick="toggleDarkMode()" class="w-8 h-8 rounded-full bg-surface-muted border border-surface-border flex items-center justify-center text-brand-600 hover:bg-surface-bg transition-colors shadow-sm" title="Mode Malam/Siang">
+                        <i id="icon-dark" class="ph-fill ph-moon"></i>
+                    </button>
                 </div>
             </div>
         </header>
@@ -81,65 +215,71 @@
             <section id="view-tracker" class="view-section flex flex-col gap-5">
                 <!-- Stats -->
                 <div class="grid grid-cols-3 gap-3">
-                    <div class="glass-panel p-3 rounded-xl text-center">
-                        <div class="text-gray-500 text-[10px] font-bold uppercase tracking-wide mb-1">Total</div>
-                        <div class="text-xl font-bold text-islamic-800 leading-none" id="stat-total">0</div>
+                    <div class="glass-panel p-3 rounded-3xl text-center">
+                        <div class="text-txt-muted text-[10px] font-extrabold uppercase tracking-widest mb-1">Total</div>
+                        <div class="text-2xl font-black text-txt-main leading-none drop-shadow-sm" id="stat-total">0</div>
                     </div>
-                    <div class="glass-panel p-3 rounded-xl text-center border-b-2 border-islamic-500">
-                        <div class="text-gray-500 text-[10px] font-bold uppercase tracking-wide mb-1">Selesai</div>
-                        <div class="text-xl font-bold text-islamic-600 leading-none" id="stat-selesai">0</div>
+                    <div class="glass-panel p-3 rounded-3xl text-center border-b-4 border-brand-500">
+                        <div class="text-txt-muted text-[10px] font-extrabold uppercase tracking-widest mb-1">Selesai</div>
+                        <div class="text-2xl font-black text-brand-600 leading-none drop-shadow-sm" id="stat-selesai">0</div>
                     </div>
-                    <div class="glass-panel p-3 rounded-xl text-center border-b-2 border-yellow-500">
-                        <div class="text-gray-500 text-[10px] font-bold uppercase tracking-wide mb-1">Murajaah</div>
-                        <div class="text-xl font-bold text-yellow-600 leading-none" id="stat-murajaah">0</div>
+                    <div class="glass-panel p-3 rounded-3xl text-center border-b-4 border-yellow-500">
+                        <div class="text-txt-muted text-[10px] font-extrabold uppercase tracking-widest mb-1">Murajaah</div>
+                        <div class="text-2xl font-black text-yellow-600 leading-none drop-shadow-sm" id="stat-murajaah">0</div>
                     </div>
                 </div>
 
                 <!-- Filters -->
-                <div class="glass-panel p-3 rounded-xl flex flex-col gap-3 z-10 sticky top-[72px]">
+                <div class="glass-panel p-3 rounded-3xl flex flex-col gap-3 z-10 sticky top-[72px]">
                     <div class="relative w-full">
-                        <i class="ph ph-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                        <input type="text" id="search-tracker" placeholder="Cari santri atau surah..." class="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-islamic-500 outline-none bg-gray-50">
+                        <i class="ph ph-magnifying-glass absolute left-4 top-1/2 transform -translate-y-1/2 text-txt-muted"></i>
+                        <input type="text" id="search-tracker" placeholder="Cari santri atau surah..." class="w-full pl-10 pr-4 py-2.5 text-sm border border-surface-border rounded-2xl focus:ring-2 focus:ring-brand-500 outline-none bg-surface-bg text-txt-main placeholder-txt-muted transition-colors">
                     </div>
                     <div class="flex gap-2 overflow-x-auto w-full pb-1 hide-scrollbar" id="filter-container">
-                        <button class="filter-btn active whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-semibold bg-islamic-600 text-white transition-colors" data-filter="Semua">Semua</button>
-                        <button class="filter-btn whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-semibold bg-gray-100 text-gray-600 transition-colors" data-filter="Sedang dihafal">Proses</button>
-                        <button class="filter-btn whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-semibold bg-gray-100 text-gray-600 transition-colors" data-filter="Perlu murajaah">Murajaah</button>
-                        <button class="filter-btn whitespace-nowrap px-3 py-1.5 rounded-lg text-xs font-semibold bg-gray-100 text-gray-600 transition-colors" data-filter="Sudah hafal">Selesai</button>
+                        <button class="filter-btn active whitespace-nowrap px-4 py-1.5 rounded-xl text-xs font-bold bg-brand-600 text-white shadow-md shadow-[var(--shadow-color)] transition-all" data-filter="Semua">Semua</button>
+                        <button class="filter-btn whitespace-nowrap px-4 py-1.5 rounded-xl text-xs font-bold bg-surface-muted text-txt-muted transition-all" data-filter="Sedang dihafal">Proses</button>
+                        <button class="filter-btn whitespace-nowrap px-4 py-1.5 rounded-xl text-xs font-bold bg-surface-muted text-txt-muted transition-all" data-filter="Perlu murajaah">Murajaah</button>
+                        <button class="filter-btn whitespace-nowrap px-4 py-1.5 rounded-xl text-xs font-bold bg-surface-muted text-txt-muted transition-all" data-filter="Sudah hafal">Selesai</button>
                     </div>
                 </div>
 
                 <!-- Tracker List -->
                 <div id="tracker-list" class="flex flex-col gap-0"></div>
-                <div id="empty-tracker" class="hidden flex-col items-center justify-center py-12 text-center">
-                    <i class="ph-duotone ph-folder-open text-5xl text-gray-300 mb-3"></i>
-                    <h3 class="text-base font-semibold text-gray-600">Belum ada hafalan</h3>
+                <div id="empty-tracker" class="hidden flex-col items-center justify-center py-12 text-center glass-panel rounded-3xl mt-4">
+                    <i class="ph-duotone ph-folder-open text-5xl text-brand-300 mb-3"></i>
+                    <h3 class="text-base font-bold text-txt-main">Belum ada hafalan</h3>
+                    <p class="text-txt-muted text-xs mt-1">Ketuk tombol + untuk mulai mencatat.</p>
                 </div>
             </section>
 
             <!-- VIEW 2: MANAJEMEN SANTRI -->
             <section id="view-santri" class="view-section hidden flex flex-col gap-5">
-                <div class="glass-panel p-3 rounded-xl flex flex-col gap-3 sticky top-[72px] z-10">
+                <div class="glass-panel p-3 rounded-3xl flex flex-col gap-3 sticky top-[72px] z-10">
                     <div class="relative w-full">
-                        <i class="ph ph-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                        <input type="text" id="search-santri" placeholder="Cari nama santri atau kelas..." class="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-islamic-500 outline-none bg-gray-50">
+                        <i class="ph ph-magnifying-glass absolute left-4 top-1/2 transform -translate-y-1/2 text-txt-muted"></i>
+                        <input type="text" id="search-santri" placeholder="Cari nama santri atau kelas..." class="w-full pl-10 pr-4 py-2.5 text-sm border border-surface-border rounded-2xl focus:ring-2 focus:ring-brand-500 outline-none bg-surface-bg text-txt-main placeholder-txt-muted transition-colors">
                     </div>
                 </div>
 
                 <!-- Santri List -->
                 <div id="santri-list" class="flex flex-col gap-0"></div>
-                <div id="empty-santri" class="hidden flex-col items-center justify-center py-12 text-center">
-                    <i class="ph-duotone ph-users text-5xl text-gray-300 mb-3"></i>
-                    <h3 class="text-base font-semibold text-gray-600">Belum ada data santri</h3>
-                    <p class="text-gray-400 text-xs mt-1">Tambahkan santri terlebih dahulu.</p>
+                <div id="empty-santri" class="hidden flex-col items-center justify-center py-12 text-center glass-panel rounded-3xl mt-4">
+                    <i class="ph-duotone ph-users text-5xl text-brand-300 mb-3"></i>
+                    <h3 class="text-base font-bold text-txt-main">Belum ada data santri</h3>
+                    <p class="text-txt-muted text-xs mt-1">Tambahkan data santri terlebih dahulu.</p>
                 </div>
             </section>
 
             <!-- VIEW 3: REKAP NILAI -->
             <section id="view-rekap" class="view-section hidden flex flex-col gap-5">
-                <div class="glass-panel p-4 rounded-xl mb-2 border-l-4 border-islamic-500">
-                    <h2 class="text-sm font-bold text-gray-800">Ringkasan & Laporan</h2>
-                    <p class="text-xs text-gray-500">Kelola nilai akhir dan bagikan laporan capaian santri via WhatsApp.</p>
+                <div class="glass-panel p-4 rounded-3xl mb-2 border-l-4 border-brand-500 flex justify-between items-center">
+                    <div>
+                        <h2 class="text-base font-black text-txt-main">Ringkasan & Laporan</h2>
+                        <p class="text-[11px] text-txt-muted mt-0.5 leading-tight">Kelola nilai akhir dan bagikan laporan capaian santri via WhatsApp.</p>
+                    </div>
+                    <button onclick="openBobotModal()" class="w-10 h-10 rounded-2xl bg-surface-muted text-brand-600 flex items-center justify-center hover:bg-brand-50 transition-colors shrink-0 shadow-sm border border-surface-border" title="Pengaturan Bobot Penilaian">
+                        <i class="ph-fill ph-sliders-horizontal text-xl"></i>
+                    </button>
                 </div>
                 <!-- Rekap List -->
                 <div id="rekap-list" class="flex flex-col gap-0"></div>
@@ -147,51 +287,51 @@
 
         </main>
 
-        <!-- Floating Action Button (Dynamic) -->
-        <button id="btn-fab" onclick="handleFabClick()" class="fixed bottom-20 right-6 md:right-[calc(50%-10rem)] w-14 h-14 bg-islamic-600 hover:bg-islamic-700 text-white rounded-full shadow-lg flex items-center justify-center transition-transform transform hover:scale-105 z-40 focus:outline-none">
-            <i class="ph ph-plus text-2xl"></i>
+        <!-- Floating Action Button -->
+        <button id="btn-fab" onclick="handleFabClick()" class="fixed bottom-24 right-6 md:right-[calc(50%-10rem)] w-14 h-14 bg-gradient-to-br from-[var(--brand-500)] to-[var(--blob-1)] text-white rounded-full shadow-[0_4px_20px_var(--shadow-color)] flex items-center justify-center transition-transform transform hover:scale-105 z-40 focus:outline-none">
+            <i class="ph ph-plus text-2xl font-bold"></i>
         </button>
 
         <!-- Bottom Navigation Bar -->
-        <nav class="fixed bottom-0 w-full max-w-md bg-white border-t border-gray-200 flex justify-around items-center h-16 z-30 px-2 pb-safe">
-            <button onclick="switchView('tracker')" class="nav-btn flex flex-col items-center justify-center w-full h-full text-islamic-600 font-semibold transition-colors" data-target="tracker">
-                <i class="ph-fill ph-notebook text-2xl mb-1"></i>
-                <span class="text-[10px]">Hafalan</span>
+        <nav class="fixed bottom-4 left-4 right-4 md:left-[calc(50%-10rem+1rem)] md:right-[calc(50%-10rem+1rem)] max-w-[calc(100%-2rem)] mx-auto bg-glass-bg backdrop-blur-2xl border border-glass-border rounded-full flex justify-around items-center h-16 z-30 px-2 shadow-[0_8px_32px_var(--shadow-color)]">
+            <button onclick="switchView('tracker')" class="nav-btn flex flex-col items-center justify-center w-full h-full text-brand-600 font-bold transition-colors" data-target="tracker">
+                <i class="ph-fill ph-notebook text-[26px] mb-0.5"></i>
+                <span class="text-[9px] uppercase tracking-wider">Hafalan</span>
             </button>
-            <button onclick="switchView('santri')" class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-islamic-500 transition-colors" data-target="santri">
-                <i class="ph-fill ph-users text-2xl mb-1"></i>
-                <span class="text-[10px]">Santri</span>
+            <button onclick="switchView('santri')" class="nav-btn flex flex-col items-center justify-center w-full h-full text-txt-muted hover:text-brand-500 transition-colors" data-target="santri">
+                <i class="ph ph-users text-[26px] mb-0.5"></i>
+                <span class="text-[9px] uppercase tracking-wider">Santri</span>
             </button>
-            <button onclick="switchView('rekap')" class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-islamic-500 transition-colors" data-target="rekap">
-                <i class="ph-fill ph-chart-bar text-2xl mb-1"></i>
-                <span class="text-[10px]">Rekap Nilai</span>
+            <button onclick="switchView('rekap')" class="nav-btn flex flex-col items-center justify-center w-full h-full text-txt-muted hover:text-brand-500 transition-colors" data-target="rekap">
+                <i class="ph ph-chart-bar text-[26px] mb-0.5"></i>
+                <span class="text-[9px] uppercase tracking-wider">Rekap</span>
             </button>
         </nav>
 
         <!-- MODAL: FORM SANTRI -->
-        <div id="modal-santri" class="fixed inset-0 bg-black/60 z-50 hidden flex-col justify-end opacity-0 transition-opacity backdrop-blur-sm">
-            <div class="bg-white w-full max-w-md mx-auto rounded-t-3xl overflow-hidden shadow-2xl transition-transform transform translate-y-full flex flex-col modal-content">
-                <div class="px-5 py-4 border-b border-gray-100 flex justify-between items-center">
-                    <h2 class="text-lg font-bold text-gray-800" id="title-modal-santri">Tambah Santri</h2>
-                    <button type="button" onclick="toggleModal('modal-santri', false)" class="p-1 text-gray-400 hover:text-gray-600 bg-gray-100 rounded-full"><i class="ph ph-x text-lg"></i></button>
+        <div id="modal-santri" class="fixed inset-0 bg-black/40 z-50 hidden flex-col justify-end opacity-0 transition-opacity backdrop-blur-sm">
+            <div class="modal-glass w-full max-w-md mx-auto rounded-t-[2.5rem] overflow-hidden shadow-2xl transition-transform transform translate-y-full flex flex-col modal-content border-x border-glass-border">
+                <div class="px-6 py-5 border-b border-surface-border flex justify-between items-center">
+                    <h2 class="text-lg font-black text-txt-main" id="title-modal-santri">Tambah Santri</h2>
+                    <button type="button" onclick="toggleModal('modal-santri', false)" class="p-1.5 text-txt-muted hover:text-txt-main bg-surface-muted rounded-full transition-colors"><i class="ph ph-x text-lg"></i></button>
                 </div>
-                <div class="p-5 overflow-y-auto">
+                <div class="p-6 overflow-y-auto">
                     <form id="form-santri" class="space-y-4">
                         <input type="hidden" id="santri-id" value="">
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Nama Lengkap <span class="text-red-500">*</span></label>
-                            <input type="text" id="santri-nama" required class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-islamic-500 outline-none" placeholder="Ahmad Abdullah">
+                            <label class="block text-xs font-bold text-txt-muted mb-1.5 uppercase tracking-wide">Nama Lengkap <span class="text-brand-500">*</span></label>
+                            <input type="text" id="santri-nama" required class="w-full px-4 py-3 text-sm border border-surface-border rounded-2xl focus:ring-2 focus:ring-brand-500 outline-none bg-surface-bg text-txt-main placeholder-txt-muted/50" placeholder="Ahmad Abdullah">
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Kelas / Kelompok <span class="text-red-500">*</span></label>
-                            <input type="text" id="santri-kelas" required class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-islamic-500 outline-none" placeholder="7A / Tahfidz 1">
+                            <label class="block text-xs font-bold text-txt-muted mb-1.5 uppercase tracking-wide">Kelas / Kelompok <span class="text-brand-500">*</span></label>
+                            <input type="text" id="santri-kelas" required class="w-full px-4 py-3 text-sm border border-surface-border rounded-2xl focus:ring-2 focus:ring-brand-500 outline-none bg-surface-bg text-txt-main placeholder-txt-muted/50" placeholder="7A / Tahfidz 1">
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Target Capaian <span class="text-gray-400 font-normal">(Opsional)</span></label>
-                            <input type="text" id="santri-target" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-islamic-500 outline-none" placeholder="Contoh: Hafal Juz 30">
+                            <label class="block text-xs font-bold text-txt-muted mb-1.5 uppercase tracking-wide">Target Capaian <span class="text-txt-muted/60 font-normal normal-case">(Opsional)</span></label>
+                            <input type="text" id="santri-target" class="w-full px-4 py-3 text-sm border border-surface-border rounded-2xl focus:ring-2 focus:ring-brand-500 outline-none bg-surface-bg text-txt-main placeholder-txt-muted/50" placeholder="Contoh: Hafal Juz 30">
                         </div>
-                        <div class="pt-2 pb-4 flex gap-3">
-                            <button type="submit" class="w-full bg-islamic-600 text-white font-semibold py-2.5 px-4 rounded-xl text-sm shadow-md">Simpan Santri</button>
+                        <div class="pt-4 pb-2 flex gap-3">
+                            <button type="submit" class="w-full bg-gradient-to-r from-[var(--brand-600)] to-[var(--blob-1)] text-white font-bold py-3.5 px-4 rounded-2xl text-sm shadow-[0_4px_15px_var(--shadow-color)] hover:shadow-lg transition-all">Simpan Data Santri</button>
                         </div>
                     </form>
                 </div>
@@ -199,35 +339,35 @@
         </div>
 
         <!-- MODAL: FORM TRACKER HAFALAN -->
-        <div id="modal-tracker" class="fixed inset-0 bg-black/60 z-50 hidden flex-col justify-end opacity-0 transition-opacity backdrop-blur-sm">
-            <div class="bg-white w-full max-w-md mx-auto rounded-t-3xl overflow-hidden shadow-2xl transition-transform transform translate-y-full flex flex-col max-h-[90vh] modal-content">
-                <div class="px-5 py-4 border-b border-gray-100 flex justify-between items-center bg-white sticky top-0 z-10">
-                    <h2 class="text-lg font-bold text-gray-800" id="title-modal-tracker">Catat Hafalan</h2>
-                    <button type="button" onclick="toggleModal('modal-tracker', false)" class="p-1 text-gray-400 hover:text-gray-600 bg-gray-100 rounded-full"><i class="ph ph-x text-lg"></i></button>
+        <div id="modal-tracker" class="fixed inset-0 bg-black/40 z-50 hidden flex-col justify-end opacity-0 transition-opacity backdrop-blur-sm">
+            <div class="modal-glass w-full max-w-md mx-auto rounded-t-[2.5rem] overflow-hidden shadow-2xl transition-transform transform translate-y-full flex flex-col max-h-[90vh] modal-content border-x border-glass-border">
+                <div class="px-6 py-5 border-b border-surface-border flex justify-between items-center sticky top-0 z-10 bg-surface-bg/80 backdrop-blur-lg">
+                    <h2 class="text-lg font-black text-txt-main" id="title-modal-tracker">Catat Hafalan</h2>
+                    <button type="button" onclick="toggleModal('modal-tracker', false)" class="p-1.5 text-txt-muted hover:text-txt-main bg-surface-muted rounded-full transition-colors"><i class="ph ph-x text-lg"></i></button>
                 </div>
-                <div class="p-5 overflow-y-auto">
-                    <form id="form-tracker" class="space-y-4">
+                <div class="p-6 overflow-y-auto">
+                    <form id="form-tracker" class="space-y-5">
                         <input type="hidden" id="tracker-id" value="">
                         
                         <!-- Pilihan Santri -->
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Pilih Santri <span class="text-red-500">*</span></label>
-                            <select id="tracker-santriId" required class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-islamic-500 outline-none bg-gray-50">
+                            <label class="block text-xs font-bold text-txt-muted mb-1.5 uppercase tracking-wide">Pilih Santri <span class="text-brand-500">*</span></label>
+                            <select id="tracker-santriId" required class="w-full px-4 py-3 text-sm border border-surface-border rounded-2xl focus:ring-2 focus:ring-brand-500 outline-none bg-surface-bg text-txt-main appearance-none">
                                 <!-- Populated by JS -->
                             </select>
                         </div>
 
                         <!-- Kategori -->
                         <div>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1">Kategori</label>
+                            <label class="block text-xs font-bold text-txt-muted mb-1.5 uppercase tracking-wide">Kategori</label>
                             <div class="flex gap-3">
                                 <label class="flex-1 cursor-pointer">
                                     <input type="radio" name="tracker-kategori" value="quran" class="peer sr-only" checked onchange="toggleMateriInput()">
-                                    <div class="text-center px-2 py-2 text-xs rounded-lg border border-gray-200 peer-checked:bg-islamic-50 peer-checked:border-islamic-500 peer-checked:text-islamic-700 font-semibold transition-all">Al-Qur'an</div>
+                                    <div class="text-center px-2 py-3 text-xs rounded-2xl border border-surface-border peer-checked:bg-brand-50 peer-checked:border-brand-500 peer-checked:text-brand-700 bg-surface-bg text-txt-muted font-bold transition-all shadow-sm">Al-Qur'an</div>
                                 </label>
                                 <label class="flex-1 cursor-pointer">
                                     <input type="radio" name="tracker-kategori" value="pelajaran" class="peer sr-only" onchange="toggleMateriInput()">
-                                    <div class="text-center px-2 py-2 text-xs rounded-lg border border-gray-200 peer-checked:bg-blue-50 peer-checked:border-blue-500 peer-checked:text-blue-700 font-semibold transition-all">Pelajaran</div>
+                                    <div class="text-center px-2 py-3 text-xs rounded-2xl border border-surface-border peer-checked:bg-blue-50 peer-checked:border-blue-500 peer-checked:text-blue-700 bg-surface-bg text-txt-muted font-bold transition-all shadow-sm">Pelajaran</div>
                                 </label>
                             </div>
                         </div>
@@ -235,27 +375,27 @@
                         <!-- Materi & Rentang -->
                         <div class="grid grid-cols-5 gap-3">
                             <div class="col-span-3" id="container-materi-quran">
-                                <label class="block text-xs font-semibold text-gray-600 mb-1">Surah <span class="text-red-500">*</span></label>
-                                <select id="tracker-surah" class="w-full px-2 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-islamic-500 outline-none bg-white">
+                                <label class="block text-xs font-bold text-txt-muted mb-1.5 uppercase tracking-wide">Surah <span class="text-brand-500">*</span></label>
+                                <select id="tracker-surah" class="w-full px-3 py-3 text-sm border border-surface-border rounded-2xl focus:ring-2 focus:ring-brand-500 outline-none bg-surface-bg text-txt-main appearance-none">
                                     <!-- Populated by JS -->
                                 </select>
                             </div>
                             <div class="col-span-3 hidden" id="container-materi-pelajaran">
-                                <label class="block text-xs font-semibold text-gray-600 mb-1">Materi <span class="text-red-500">*</span></label>
-                                <input type="text" id="tracker-materi-text" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-islamic-500 outline-none" placeholder="Hadits Arbain">
+                                <label class="block text-xs font-bold text-txt-muted mb-1.5 uppercase tracking-wide">Materi <span class="text-brand-500">*</span></label>
+                                <input type="text" id="tracker-materi-text" class="w-full px-4 py-3 text-sm border border-surface-border rounded-2xl focus:ring-2 focus:ring-brand-500 outline-none bg-surface-bg text-txt-main placeholder-txt-muted/50" placeholder="Hadits Arbain">
                             </div>
 
                             <div class="col-span-2">
-                                <label id="label-rentang" class="block text-xs font-semibold text-gray-600 mb-1">Ayat <span class="text-red-500">*</span></label>
-                                <input type="text" id="tracker-rentang" required class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-islamic-500 outline-none" placeholder="1-15">
+                                <label id="label-rentang" class="block text-xs font-bold text-txt-muted mb-1.5 uppercase tracking-wide">Ayat <span class="text-brand-500">*</span></label>
+                                <input type="text" id="tracker-rentang" required class="w-full px-4 py-3 text-sm border border-surface-border rounded-2xl focus:ring-2 focus:ring-brand-500 outline-none bg-surface-bg text-txt-main placeholder-txt-muted/50" placeholder="1-15">
                             </div>
                         </div>
 
                         <!-- Status & Nilai -->
-                        <div class="grid grid-cols-3 gap-3 bg-gray-50 p-3 rounded-xl border border-gray-100">
+                        <div class="grid grid-cols-3 gap-3 bg-surface-muted p-4 rounded-3xl border border-surface-border">
                             <div class="col-span-2">
-                                <label class="block text-xs font-semibold text-gray-600 mb-1">Status Progres</label>
-                                <select id="tracker-status" class="w-full px-2 py-1.5 text-xs border border-gray-300 rounded-lg focus:ring-2 focus:ring-islamic-500 outline-none bg-white">
+                                <label class="block text-[10px] font-bold text-txt-muted mb-1.5 uppercase tracking-wide">Status Progres</label>
+                                <select id="tracker-status" class="w-full px-3 py-2.5 text-xs border border-surface-border rounded-xl focus:ring-2 focus:ring-brand-500 outline-none bg-surface-bg text-txt-main appearance-none font-bold">
                                     <option value="Belum mulai">Belum mulai</option>
                                     <option value="Sedang dihafal">Sedang dihafal</option>
                                     <option value="Perlu murajaah">Perlu murajaah</option>
@@ -263,25 +403,25 @@
                                 </select>
                             </div>
                             <div class="col-span-1">
-                                <label class="block text-xs font-semibold text-gray-600 mb-1">Nilai PH <span class="text-gray-400 font-normal">(opt)</span></label>
-                                <input type="number" id="tracker-nilai" min="0" max="100" class="w-full px-2 py-1.5 text-xs border border-gray-300 rounded-lg focus:ring-2 focus:ring-islamic-500 outline-none text-center" placeholder="0-100">
+                                <label class="block text-[10px] font-bold text-txt-muted mb-1.5 uppercase tracking-wide">Nilai PH</label>
+                                <input type="number" id="tracker-nilai" min="0" max="100" class="w-full px-2 py-2.5 text-xs border border-surface-border rounded-xl focus:ring-2 focus:ring-brand-500 outline-none text-center bg-surface-bg text-txt-main font-bold placeholder-txt-muted/50" placeholder="0-100">
                             </div>
                         </div>
 
                         <!-- Tanggal -->
-                        <div class="grid grid-cols-2 gap-3">
+                        <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-semibold text-gray-600 mb-1">Mulai <span class="text-red-500">*</span></label>
-                                <input type="date" id="tracker-mulai" required class="w-full px-2 py-1.5 border border-gray-300 rounded-lg text-xs focus:ring-2 focus:ring-islamic-500 outline-none">
+                                <label class="block text-xs font-bold text-txt-muted mb-1.5 uppercase tracking-wide">Mulai <span class="text-brand-500">*</span></label>
+                                <input type="date" id="tracker-mulai" required class="w-full px-3 py-3 border border-surface-border rounded-2xl text-xs focus:ring-2 focus:ring-brand-500 outline-none bg-surface-bg text-txt-main font-semibold appearance-none">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-gray-600 mb-1">Target</label>
-                                <input type="date" id="tracker-target" class="w-full px-2 py-1.5 border border-gray-300 rounded-lg text-xs focus:ring-2 focus:ring-islamic-500 outline-none">
+                                <label class="block text-xs font-bold text-txt-muted mb-1.5 uppercase tracking-wide">Target</label>
+                                <input type="date" id="tracker-target" class="w-full px-3 py-3 border border-surface-border rounded-2xl text-xs focus:ring-2 focus:ring-brand-500 outline-none bg-surface-bg text-txt-main font-semibold appearance-none">
                             </div>
                         </div>
 
-                        <div class="pt-2 pb-6">
-                            <button type="submit" class="w-full bg-islamic-600 text-white font-semibold py-2.5 px-4 rounded-xl text-sm shadow-md">Simpan Hafalan</button>
+                        <div class="pt-4 pb-2">
+                            <button type="submit" class="w-full bg-gradient-to-r from-[var(--brand-600)] to-[var(--blob-1)] text-white font-bold py-3.5 px-4 rounded-2xl text-sm shadow-[0_4px_15px_var(--shadow-color)] hover:shadow-lg transition-all">Simpan Catatan Hafalan</button>
                         </div>
                     </form>
                 </div>
@@ -289,44 +429,90 @@
         </div>
 
         <!-- MODAL: FORM UJIAN (PTS & PAS) -->
-        <div id="modal-ujian" class="fixed inset-0 bg-black/60 z-50 hidden flex-col justify-end opacity-0 transition-opacity backdrop-blur-sm">
-            <div class="bg-white w-full max-w-md mx-auto rounded-t-3xl overflow-hidden shadow-2xl transition-transform transform translate-y-full flex flex-col max-h-[90vh] modal-content">
-                <div class="px-5 py-4 border-b border-gray-100 flex justify-between items-center bg-white sticky top-0 z-10">
-                    <h2 class="text-lg font-bold text-gray-800">Input Nilai Ujian</h2>
-                    <button type="button" onclick="toggleModal('modal-ujian', false)" class="p-1 text-gray-400 hover:text-gray-600 bg-gray-100 rounded-full"><i class="ph ph-x text-lg"></i></button>
+        <div id="modal-ujian" class="fixed inset-0 bg-black/40 z-50 hidden flex-col justify-end opacity-0 transition-opacity backdrop-blur-sm">
+            <div class="modal-glass w-full max-w-md mx-auto rounded-t-[2.5rem] overflow-hidden shadow-2xl transition-transform transform translate-y-full flex flex-col max-h-[90vh] modal-content border-x border-glass-border">
+                <div class="px-6 py-5 border-b border-surface-border flex justify-between items-center sticky top-0 z-10 bg-surface-bg/80 backdrop-blur-lg">
+                    <h2 class="text-lg font-black text-txt-main">Input Nilai Ujian</h2>
+                    <button type="button" onclick="toggleModal('modal-ujian', false)" class="p-1.5 text-txt-muted hover:text-txt-main bg-surface-muted rounded-full transition-colors"><i class="ph ph-x text-lg"></i></button>
                 </div>
-                <div class="p-5 overflow-y-auto">
-                    <form id="form-ujian" class="space-y-4">
+                <div class="p-6 overflow-y-auto">
+                    <form id="form-ujian" class="space-y-5">
                         <input type="hidden" id="ujian-santri-id" value="">
-                        <div class="mb-4">
-                            <h3 class="font-bold text-islamic-700 text-sm" id="ujian-santri-nama">-</h3>
-                            <p class="text-[10px] text-gray-500">Masukkan nilai ujian (0-100). Biarkan kosong jika belum ada nilai.</p>
+                        <div class="mb-2 bg-brand-50 p-4 rounded-3xl border border-brand-100">
+                            <h3 class="font-black text-brand-700 text-sm mb-1" id="ujian-santri-nama">-</h3>
+                            <p class="text-[10px] text-brand-600/70 font-semibold">Masukkan nilai ujian (0-100). Biarkan kosong jika belum ada nilai.</p>
                         </div>
                         
-                        <div class="grid grid-cols-2 gap-4 bg-blue-50 p-3 rounded-xl border border-blue-100">
+                        <div class="grid grid-cols-2 gap-4 bg-blue-50/50 dark:bg-blue-900/20 p-4 rounded-3xl border border-blue-100 dark:border-blue-800/30">
                             <div>
-                                <label class="block text-xs font-semibold text-gray-600 mb-1">Nilai PTS</label>
-                                <input type="number" id="ujian-pts" min="0" max="100" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-islamic-500 outline-none text-center" placeholder="-">
+                                <label class="block text-xs font-bold text-blue-700 dark:text-blue-400 mb-1.5 uppercase tracking-wide">Nilai PTS</label>
+                                <input type="number" id="ujian-pts" min="0" max="100" class="w-full px-4 py-3 text-sm border border-surface-border rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none text-center bg-surface-bg text-txt-main font-bold placeholder-txt-muted/50" placeholder="-">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-gray-600 mb-1">Remidi PTS</label>
-                                <input type="number" id="ujian-remidi-pts" min="0" max="100" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-islamic-500 outline-none text-center" placeholder="-">
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-4 bg-green-50 p-3 rounded-xl border border-green-100">
-                            <div>
-                                <label class="block text-xs font-semibold text-gray-600 mb-1">Nilai PAS</label>
-                                <input type="number" id="ujian-pas" min="0" max="100" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-islamic-500 outline-none text-center" placeholder="-">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-gray-600 mb-1">Remidi PAS</label>
-                                <input type="number" id="ujian-remidi-pas" min="0" max="100" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-islamic-500 outline-none text-center" placeholder="-">
+                                <label class="block text-xs font-bold text-blue-700 dark:text-blue-400 mb-1.5 uppercase tracking-wide">Remidi PTS</label>
+                                <input type="number" id="ujian-remidi-pts" min="0" max="100" class="w-full px-4 py-3 text-sm border border-surface-border rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none text-center bg-surface-bg text-txt-main font-bold placeholder-txt-muted/50" placeholder="-">
                             </div>
                         </div>
 
-                        <div class="pt-2 pb-6">
-                            <button type="submit" class="w-full bg-islamic-600 text-white font-semibold py-2.5 px-4 rounded-xl text-sm shadow-md">Simpan Nilai Ujian</button>
+                        <div class="grid grid-cols-2 gap-4 bg-green-50/50 dark:bg-green-900/20 p-4 rounded-3xl border border-green-100 dark:border-green-800/30">
+                            <div>
+                                <label class="block text-xs font-bold text-green-700 dark:text-green-400 mb-1.5 uppercase tracking-wide">Nilai PAS</label>
+                                <input type="number" id="ujian-pas" min="0" max="100" class="w-full px-4 py-3 text-sm border border-surface-border rounded-2xl focus:ring-2 focus:ring-green-500 outline-none text-center bg-surface-bg text-txt-main font-bold placeholder-txt-muted/50" placeholder="-">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-green-700 dark:text-green-400 mb-1.5 uppercase tracking-wide">Remidi PAS</label>
+                                <input type="number" id="ujian-remidi-pas" min="0" max="100" class="w-full px-4 py-3 text-sm border border-surface-border rounded-2xl focus:ring-2 focus:ring-green-500 outline-none text-center bg-surface-bg text-txt-main font-bold placeholder-txt-muted/50" placeholder="-">
+                            </div>
+                        </div>
+
+                        <div class="pt-4 pb-2">
+                            <button type="submit" class="w-full bg-gradient-to-r from-[var(--brand-600)] to-[var(--blob-1)] text-white font-bold py-3.5 px-4 rounded-2xl text-sm shadow-[0_4px_15px_var(--shadow-color)] hover:shadow-lg transition-all">Simpan Nilai Ujian</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL: PENGATURAN BOBOT NILAI -->
+        <div id="modal-bobot" class="fixed inset-0 bg-black/40 z-50 hidden flex-col justify-end opacity-0 transition-opacity backdrop-blur-sm">
+            <div class="modal-glass w-full max-w-md mx-auto rounded-t-[2.5rem] overflow-hidden shadow-2xl transition-transform transform translate-y-full flex flex-col max-h-[90vh] modal-content border-x border-glass-border">
+                <div class="px-6 py-5 border-b border-surface-border flex justify-between items-center sticky top-0 z-10 bg-surface-bg/80 backdrop-blur-lg">
+                    <h2 class="text-lg font-black text-txt-main">Pengaturan Bobot Penilaian</h2>
+                    <button type="button" onclick="toggleModal('modal-bobot', false)" class="p-1.5 text-txt-muted hover:text-txt-main bg-surface-muted rounded-full transition-colors"><i class="ph ph-x text-lg"></i></button>
+                </div>
+                <div class="p-6 overflow-y-auto">
+                    <form id="form-bobot" class="space-y-5">
+                        <div class="mb-2 bg-brand-50 p-4 rounded-3xl border border-brand-100">
+                            <h3 class="font-black text-brand-700 text-sm mb-1">Persentase Nilai Akhir</h3>
+                            <p class="text-[10px] text-brand-600/70 font-semibold">Tentukan persentase bobot masing-masing penilaian. Total harus 100%.</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-3 gap-3 bg-surface-muted p-4 rounded-3xl border border-surface-border">
+                            <div>
+                                <label class="block text-xs font-bold text-txt-muted mb-1.5 uppercase tracking-wide text-center">RATA PH</label>
+                                <div class="relative">
+                                    <input type="number" id="bobot-ph" min="0" max="100" required class="w-full px-2 py-3 text-sm border border-surface-border rounded-2xl focus:ring-2 focus:ring-brand-500 outline-none text-center bg-surface-bg text-txt-main font-bold">
+                                    <span class="absolute right-2 top-1/2 transform -translate-y-1/2 text-txt-muted font-bold text-xs">%</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-blue-600 mb-1.5 uppercase tracking-wide text-center">PTS</label>
+                                <div class="relative">
+                                    <input type="number" id="bobot-pts" min="0" max="100" required class="w-full px-2 py-3 text-sm border border-surface-border rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none text-center bg-surface-bg text-txt-main font-bold">
+                                    <span class="absolute right-2 top-1/2 transform -translate-y-1/2 text-txt-muted font-bold text-xs">%</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-green-600 mb-1.5 uppercase tracking-wide text-center">PAS</label>
+                                <div class="relative">
+                                    <input type="number" id="bobot-pas" min="0" max="100" required class="w-full px-2 py-3 text-sm border border-surface-border rounded-2xl focus:ring-2 focus:ring-green-500 outline-none text-center bg-surface-bg text-txt-main font-bold">
+                                    <span class="absolute right-2 top-1/2 transform -translate-y-1/2 text-txt-muted font-bold text-xs">%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 pb-2">
+                            <button type="submit" class="w-full bg-gradient-to-r from-[var(--brand-600)] to-[var(--blob-1)] text-white font-bold py-3.5 px-4 rounded-2xl text-sm shadow-[0_4px_15px_var(--shadow-color)] hover:shadow-lg transition-all">Simpan Bobot Nilai</button>
                         </div>
                     </form>
                 </div>
@@ -335,9 +521,41 @@
     </div>
 
     <!-- Toast Container -->
-    <div id="toast-container" class="fixed top-4 left-1/2 transform -translate-x-1/2 z-[60] flex flex-col gap-2 w-[90%] max-w-md pointer-events-none"></div>
+    <div id="toast-container" class="fixed top-6 left-1/2 transform -translate-x-1/2 z-[60] flex flex-col gap-2 w-[90%] max-w-sm pointer-events-none"></div>
 
     <script>
+        /* --- TEMA & PENGATURAN UI --- */
+        let isDarkMode = localStorage.getItem('app_dark_mode') === 'true';
+        let currentThemeColor = localStorage.getItem('app_color_theme') || 'feminine';
+
+        function initThemes() {
+            if (isDarkMode) document.documentElement.classList.add('dark');
+            else document.documentElement.classList.remove('dark');
+            
+            document.documentElement.setAttribute('data-theme', currentThemeColor);
+            updateThemeIcons();
+        }
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            localStorage.setItem('app_dark_mode', isDarkMode);
+            document.documentElement.classList.toggle('dark', isDarkMode);
+            updateThemeIcons();
+        }
+
+        function toggleThemeColor() {
+            currentThemeColor = currentThemeColor === 'feminine' ? 'masculine' : 'feminine';
+            localStorage.setItem('app_color_theme', currentThemeColor);
+            document.documentElement.setAttribute('data-theme', currentThemeColor);
+        }
+
+        function updateThemeIcons() {
+            const icon = document.getElementById('icon-dark');
+            if (icon) {
+                icon.className = isDarkMode ? 'ph-fill ph-sun text-yellow-400' : 'ph-fill ph-moon';
+            }
+        }
+
         /* --- DAFTAR SURAH AL-QURAN --- */
         const daftarSurah = [
             "Al-Fatihah", "Al-Baqarah", "Ali 'Imran", "An-Nisa'", "Al-Ma'idah", "Al-An'am", "Al-A'raf", "Al-Anfal", "At-Taubah", "Yunus", 
@@ -355,10 +573,12 @@
         ];
 
         /* --- STATE DATA (LocalStorage & In-Memory) --- */
-        let santris = JSON.parse(localStorage.getItem('tracker_santris')) || []; // { id, nama, kelas, target, pts, remidiPts, pas, remidiPas }
-        let hafalans = JSON.parse(localStorage.getItem('tracker_hafalans')) || []; // { id, santriId, kategori, materi, rentang, mulai, target, status, nilai }
+        let santris = JSON.parse(localStorage.getItem('tracker_santris')) || []; 
+        let hafalans = JSON.parse(localStorage.getItem('tracker_hafalans')) || []; 
+        // Bobot default: dibagi rata (33, 33, 34)
+        let bobotNilai = JSON.parse(localStorage.getItem('tracker_bobot')) || { ph: 33, pts: 33, pas: 34 };
         
-        let currentView = 'tracker'; // tracker, santri, rekap
+        let currentView = 'tracker'; 
         let filterStatus = 'Semua';
 
         // Set default Date
@@ -366,6 +586,7 @@
 
         // INIT
         window.onload = () => {
+            initThemes();
             populateSurahDropdown();
             renderAll();
         }
@@ -374,29 +595,84 @@
         function saveData() {
             localStorage.setItem('tracker_santris', JSON.stringify(santris));
             localStorage.setItem('tracker_hafalans', JSON.stringify(hafalans));
+            localStorage.setItem('tracker_bobot', JSON.stringify(bobotNilai));
         }
 
         /* --- HELPER FORMAT KELAS --- */
         function formatKelas(str) {
             if (!str) return '';
             return str.split(' ').map(word => {
-                // Format gabungan angka huruf (misal: 7a -> 7A, 9b -> 9B)
                 if (word.match(/^[0-9]+[a-zA-Z]+$/)) return word.toUpperCase(); 
-                // Format angka romawi SMP/SMA (I - XII)
                 if (word.match(/^(x{0,1})(ix|iv|v?i{0,3})$/i)) return word.toUpperCase(); 
-                // Standar Proper Case
                 return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
             }).join(' ');
         }
 
-        /* --- WHATSAPP SHARING LOGIC --- */
+        /* --- HELPER MENGHITUNG STATISTIK HARI, PEKAN, BULAN --- */
+        function getStatWaktu(hafalansArray) {
+            const now = new Date();
+            const todayStr = now.toISOString().split('T')[0];
+            
+            const startOfWeek = new Date(now);
+            const dayOfWeek = now.getDay() || 7; 
+            startOfWeek.setDate(now.getDate() - dayOfWeek + 1);
+            startOfWeek.setHours(0,0,0,0);
+
+            const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+            let hariIni = 0, pekanIni = 0, bulanIni = 0;
+
+            hafalansArray.forEach(h => {
+                if(!h.mulai) return;
+                const d = new Date(h.mulai);
+                if (h.mulai === todayStr) hariIni++;
+                if (d >= startOfWeek) pekanIni++;
+                if (d >= startOfMonth) bulanIni++;
+            });
+
+            return { hariIni, pekanIni, bulanIni, total: hafalansArray.length };
+        }
+
+        /* --- HELPER MENGHITUNG NILAI AKHIR BERDASARKAN BOBOT --- */
+        function calculateFinalGrade(rataPH, pts, pas) {
+            let totalWeight = 0;
+            let totalScore = 0;
+
+            if (rataPH > 0) {
+                totalScore += rataPH * bobotNilai.ph;
+                totalWeight += bobotNilai.ph;
+            }
+            if (pts > 0) {
+                totalScore += pts * bobotNilai.pts;
+                totalWeight += bobotNilai.pts;
+            }
+            if (pas > 0) {
+                totalScore += pas * bobotNilai.pas;
+                totalWeight += bobotNilai.pas;
+            }
+
+            // Mencegah pembagian dengan 0
+            if (totalWeight === 0) return 0;
+            return Math.round(totalScore / totalWeight);
+        }
+
+        /* --- HELPER MENDAPATKAN PREDIKAT --- */
+        function getPredikat(nilai) {
+            if (nilai === 0) return '-';
+            if (nilai >= 90) return 'A';
+            if (nilai >= 80) return 'B';
+            if (nilai >= 70) return 'C';
+            return 'D';
+        }
+
+        /* --- WHATSAPP SHARING LOGIC (PER SANTRI) --- */
         function shareWhatsApp(santriId) {
             const s = santris.find(x => x.id === santriId);
             if(!s) return;
             
             const sHafalans = hafalans.filter(h => h.santriId === s.id);
+            const stats = getStatWaktu(sHafalans);
             
-            // Kalkulasi Nilai untuk Laporan
             const dinilaiPH = sHafalans.filter(h => h.nilai && h.nilai !== "");
             let rataPH = 0;
             if(dinilaiPH.length > 0) {
@@ -407,29 +683,31 @@
             const finalPTS = Math.max(parseInt(s.pts) || 0, parseInt(s.remidiPts) || 0);
             const finalPAS = Math.max(parseInt(s.pas) || 0, parseInt(s.remidiPas) || 0);
 
-            let pembagi = 0, totalSemua = 0;
-            if(rataPH > 0) { totalSemua += rataPH; pembagi++; }
-            if(finalPTS > 0) { totalSemua += finalPTS; pembagi++; }
-            if(finalPAS > 0) { totalSemua += finalPAS; pembagi++; }
-            let rataAkhir = pembagi > 0 ? Math.round(totalSemua / pembagi) : 0;
+            // Hitung nilai akhir dengan bobot persentase
+            let rataAkhir = calculateFinalGrade(rataPH, finalPTS, finalPAS);
+            let predikat = getPredikat(rataAkhir);
 
-            // Merakit Teks WA
             let text = `*📊 LAPORAN PERKEMBANGAN HAFALAN*\n\n`;
             text += `👤 *Nama Santri:* ${s.nama}\n`;
             text += `🏫 *Kelas:* ${s.kelas}\n`;
             text += `🎯 *Target Capaian:* ${s.target || 'Belum ditentukan'}\n\n`;
             
-            text += `*📈 REKAP NILAI*\n`;
-            text += `• Rata-rata PH: ${rataPH > 0 ? rataPH : '-'}\n`;
-            text += `• Nilai PTS: ${finalPTS > 0 ? finalPTS : '-'}\n`;
-            text += `• Nilai PAS: ${finalPAS > 0 ? finalPAS : '-'}\n`;
-            text += `*⭐ NILAI AKHIR: ${rataAkhir > 0 ? rataAkhir : '-'}*\n\n`;
+            text += `*📈 STATISTIK SETORAN*\n`;
+            text += `• Hari Ini: ${stats.hariIni} setoran\n`;
+            text += `• Pekan Ini: ${stats.pekanIni} setoran\n`;
+            text += `• Bulan Ini: ${stats.bulanIni} setoran\n`;
+            text += `• Total Keseluruhan: ${stats.total} setoran\n\n`;
+
+            text += `*📑 REKAP NILAI UJIAN*\n`;
+            text += `• Rata-rata PH (${bobotNilai.ph}%): ${rataPH > 0 ? rataPH : '-'}\n`;
+            text += `• Nilai PTS (${bobotNilai.pts}%): ${finalPTS > 0 ? finalPTS : '-'}\n`;
+            text += `• Nilai PAS (${bobotNilai.pas}%): ${finalPAS > 0 ? finalPAS : '-'}\n`;
+            text += `*⭐ NILAI AKHIR: ${rataAkhir > 0 ? rataAkhir : '-'} (Predikat: ${predikat})*\n\n`;
 
             text += `*📖 DAFTAR SETORAN HAFALAN*\n`;
             if(sHafalans.length === 0) {
                 text += `_Belum ada data setoran._\n`;
             } else {
-                // Urutkan dari yang terbaru (opsional, saat ini sesuai urutan input)
                 sHafalans.forEach((h, index) => {
                     let nilaiTeks = h.nilai ? ` (Nilai: ${h.nilai})` : '';
                     let statusIkon = h.status === 'Sudah hafal' ? '✅' : (h.status === 'Perlu murajaah' ? '⚠️' : '⏳');
@@ -439,41 +717,108 @@
 
             text += `\n_Digenerate secara otomatis oleh Mutaba'ah App_`;
 
-            // Buka WhatsApp
             const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
             window.open(url, '_blank');
         }
+
+        /* --- WHATSAPP SHARING LOGIC (PER KELAS) --- */
+        function shareWhatsAppKelas(kelas) {
+            const santrisInClass = santris.filter(s => s.kelas === kelas);
+            const classHafalans = hafalans.filter(h => santrisInClass.some(s => s.id === h.santriId));
+            
+            const stats = getStatWaktu(classHafalans);
+            
+            let text = `*📊 LAPORAN PERKEMBANGAN KELAS ${kelas.toUpperCase()}*\n\n`;
+            text += `*📈 STATISTIK KELAS*\n`;
+            text += `• Setoran Hari Ini: ${stats.hariIni}\n`;
+            text += `• Setoran Pekan Ini: ${stats.pekanIni}\n`;
+            text += `• Setoran Bulan Ini: ${stats.bulanIni}\n`;
+            text += `• Total Keseluruhan: ${stats.total}\n\n`;
+            
+            text += `*👥 RINCIAN SANTRI*\n`;
+            santrisInClass.sort((a,b) => a.nama.localeCompare(b.nama)).forEach(s => {
+                const sHafalans = hafalans.filter(h => h.santriId === s.id);
+                const sStats = getStatWaktu(sHafalans);
+                
+                // Kalkulasi Cepat Nilai Akhir untuk diselipkan di rekap kelas
+                const dinilaiPH = sHafalans.filter(h => h.nilai && h.nilai !== "");
+                let rataPH = 0;
+                if(dinilaiPH.length > 0) rataPH = Math.round(dinilaiPH.reduce((sum, item) => sum + parseInt(item.nilai), 0) / dinilaiPH.length);
+                const finalPTS = Math.max(parseInt(s.pts) || 0, parseInt(s.remidiPts) || 0);
+                const finalPAS = Math.max(parseInt(s.pas) || 0, parseInt(s.remidiPas) || 0);
+                let rataAkhir = calculateFinalGrade(rataPH, finalPTS, finalPAS);
+                let predikat = getPredikat(rataAkhir);
+
+                text += `👤 *${s.nama}*\n`;
+                text += `   Hari: ${sStats.hariIni} | Pekan: ${sStats.pekanIni} | Bln: ${sStats.bulanIni}\n`;
+                text += `   Nilai Akhir: ${rataAkhir > 0 ? rataAkhir : '-'} (${predikat})\n`;
+            });
+            
+            text += `\n_Digenerate secara otomatis oleh Mutaba'ah App_`;
+            
+            const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+        }
+
+        /* --- WHATSAPP SHARING LOGIC (GLOBAL KESELURUHAN) --- */
+        function shareWhatsAppGlobal() {
+            const stats = getStatWaktu(hafalans);
+            
+            let text = `*🌐 LAPORAN GLOBAL KUTTAB AL IKHLAS*\n\n`;
+            text += `*📈 STATISTIK KESELURUHAN*\n`;
+            text += `• Setoran Hari Ini: ${stats.hariIni}\n`;
+            text += `• Setoran Pekan Ini: ${stats.pekanIni}\n`;
+            text += `• Setoran Bulan Ini: ${stats.bulanIni}\n`;
+            text += `• Total Semua Setoran: ${stats.total}\n`;
+            text += `• Total Santri Terdaftar: ${santris.length}\n\n`;
+            
+            const grouped = santris.reduce((acc, curr) => {
+                if (!acc[curr.kelas]) acc[curr.kelas] = [];
+                acc[curr.kelas].push(curr); return acc;
+            }, {});
+
+            text += `*🏫 REKAP PER KELAS*\n`;
+            Object.keys(grouped).sort().forEach(kelas => {
+                const santrisInClass = grouped[kelas];
+                const classHafalans = hafalans.filter(h => santrisInClass.some(s => s.id === h.santriId));
+                const cStats = getStatWaktu(classHafalans);
+                text += `*Kelas ${kelas}* (${santrisInClass.length} Santri)\n`;
+                text += `Hari: ${cStats.hariIni} | Pekan: ${cStats.pekanIni} | Bln: ${cStats.bulanIni}\n\n`;
+            });
+            
+            text += `_Digenerate secara otomatis oleh Mutaba'ah App_`;
+            
+            const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+        }
+
 
         /* --- NAVIGATION --- */
         function switchView(viewName) {
             currentView = viewName;
             
-            // Hide all views
             document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
             document.getElementById(`view-${viewName}`).classList.remove('hidden');
             
-            // Update Header Title
             const titles = {
-                'tracker': 'Tracker<br><span class="text-yellow-400 text-sm">Hafalan</span>',
-                'santri': 'Manajemen<br><span class="text-yellow-400 text-sm">Data Santri</span>',
-                'rekap': 'Rekapitulasi<br><span class="text-yellow-400 text-sm">Nilai & Laporan</span>'
+                'tracker': 'Tracker Hafalan<br><span class="text-brand-500 text-xs font-extrabold uppercase tracking-wide drop-shadow-sm">Kuttab Al Ikhlas</span>',
+                'santri': 'Manajemen Data<br><span class="text-brand-500 text-xs font-extrabold uppercase tracking-wide drop-shadow-sm">Santri Kuttab</span>',
+                'rekap': 'Rekapitulasi Nilai<br><span class="text-brand-500 text-xs font-extrabold uppercase tracking-wide drop-shadow-sm">& Laporan</span>'
             };
             document.getElementById('header-title').innerHTML = titles[viewName];
 
-            // Update Nav Icons
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 if(btn.dataset.target === viewName) {
-                    btn.classList.replace('text-gray-400', 'text-islamic-600');
+                    btn.classList.replace('text-txt-muted', 'text-brand-600');
                     btn.querySelector('i').classList.replace('ph', 'ph-fill');
-                    btn.classList.add('font-semibold');
+                    btn.classList.add('font-bold');
                 } else {
-                    btn.classList.replace('text-islamic-600', 'text-gray-400');
+                    btn.classList.replace('text-brand-600', 'text-txt-muted');
                     btn.querySelector('i').classList.replace('ph-fill', 'ph');
-                    btn.classList.remove('font-semibold');
+                    btn.classList.remove('font-bold');
                 }
             });
 
-            // Toggle FAB visibility
             const fab = document.getElementById('btn-fab');
             if(viewName === 'rekap') fab.classList.add('hidden');
             else fab.classList.remove('hidden');
@@ -503,7 +848,7 @@
             const content = modal.querySelector('.modal-content');
             if (show) {
                 modal.classList.remove('hidden'); modal.classList.add('flex');
-                void modal.offsetWidth; // reflow
+                void modal.offsetWidth;
                 modal.classList.remove('opacity-0');
                 content.classList.remove('translate-y-full');
             } else {
@@ -525,11 +870,11 @@
             if (isQuran) {
                 containerSurah.classList.remove('hidden');
                 containerText.classList.add('hidden');
-                labelRentang.innerHTML = 'Ayat <span class="text-red-500">*</span>';
+                labelRentang.innerHTML = 'Ayat <span class="text-brand-500">*</span>';
             } else {
                 containerSurah.classList.add('hidden');
                 containerText.classList.remove('hidden');
-                labelRentang.innerHTML = 'Bagian <span class="text-red-500">*</span>';
+                labelRentang.innerHTML = 'Bagian <span class="text-brand-500">*</span>';
             }
         }
 
@@ -545,7 +890,6 @@
         function updateSantriDropdown() {
             const select = document.getElementById('tracker-santriId');
             select.innerHTML = '<option value="" disabled selected>-- Pilih Santri --</option>';
-            // Group and sort
             let sorted = [...santris].sort((a,b) => a.kelas.localeCompare(b.kelas) || a.nama.localeCompare(b.nama));
             sorted.forEach(s => {
                 select.innerHTML += `<option value="${s.id}">${s.nama} (${s.kelas})</option>`;
@@ -554,12 +898,12 @@
 
         /* --- TOAST --- */
         function showToast(msg, type = 'success') {
-            const colors = { success: 'bg-islamic-700', error: 'bg-red-600', warning: 'bg-yellow-600', info: 'bg-blue-600' };
+            const colors = { success: 'bg-brand-600 border border-brand-400/50', error: 'bg-red-500 border border-red-400/50', warning: 'bg-yellow-500 border border-yellow-400/50', info: 'bg-blue-500 border border-blue-400/50' };
             const icons = { success: 'ph-check-circle', error: 'ph-x-circle', warning: 'ph-warning-circle', info: 'ph-info' };
             
             const toast = document.createElement('div');
-            toast.className = `${colors[type]} text-white px-4 py-3 rounded-xl shadow-lg flex items-center gap-3 toast-enter pointer-events-auto`;
-            toast.innerHTML = `<i class="ph-fill ${icons[type]} text-xl"></i><span class="text-sm font-medium">${msg}</span>`;
+            toast.className = `${colors[type]} text-white px-5 py-4 rounded-2xl shadow-[0_8px_30px_var(--shadow-color)] flex items-center gap-3 toast-enter pointer-events-auto backdrop-blur-md`;
+            toast.innerHTML = `<i class="ph-fill ${icons[type]} text-2xl drop-shadow-sm"></i><span class="text-sm font-bold tracking-wide">${msg}</span>`;
             
             const container = document.getElementById('toast-container');
             container.appendChild(toast);
@@ -571,17 +915,16 @@
             e.preventDefault();
             const id = document.getElementById('santri-id').value;
             const nama = document.getElementById('santri-nama').value.trim();
-            // Menggunakan fungsi formatKelas() untuk proper case cerdas
             const kelas = formatKelas(document.getElementById('santri-kelas').value.trim());
             const target = document.getElementById('santri-target').value.trim();
 
-            if(id) { // Edit
+            if(id) { 
                 const idx = santris.findIndex(s => s.id === id);
                 if(idx > -1) {
                     santris[idx] = { ...santris[idx], nama, kelas, target };
                 }
                 showToast('Data santri diperbarui!');
-            } else { // Add
+            } else { 
                 santris.push({ id: Date.now().toString(), nama, kelas, target, pts: '', remidiPts: '', pas: '', remidiPas: '' });
                 showToast('Santri ditambahkan!');
             }
@@ -604,7 +947,7 @@
         function deleteSantri(id) {
             if(confirm('Yakin hapus santri ini? Data hafalannya juga akan hilang.')) {
                 santris = santris.filter(s => s.id !== id);
-                hafalans = hafalans.filter(h => h.santriId !== id); // Cascade delete
+                hafalans = hafalans.filter(h => h.santriId !== id); 
                 saveData();
                 showToast('Santri dihapus.', 'info');
                 renderAll();
@@ -616,7 +959,6 @@
             document.getElementById('santri-nama').value = '';
             document.getElementById('santri-target').value = '';
             document.getElementById('title-modal-santri').innerText = 'Tambah Santri';
-            // keep kelas for easy multiple entry
         }
 
         /* --- CRUD TRACKER --- */
@@ -732,14 +1074,40 @@
             toggleModal('modal-ujian', true);
         }
 
+        /* --- PENGATURAN BOBOT NILAI --- */
+        document.getElementById('form-bobot').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const ph = parseInt(document.getElementById('bobot-ph').value) || 0;
+            const pts = parseInt(document.getElementById('bobot-pts').value) || 0;
+            const pas = parseInt(document.getElementById('bobot-pas').value) || 0;
+
+            if (ph + pts + pas !== 100) {
+                showToast('Total persentase harus 100%!', 'error');
+                return;
+            }
+
+            bobotNilai = { ph, pts, pas };
+            saveData();
+            showToast('Bobot Penilaian berhasil diperbarui!');
+            toggleModal('modal-bobot', false);
+            renderAll(); // Render ulang agar nilai ter-update
+        });
+
+        function openBobotModal() {
+            document.getElementById('bobot-ph').value = bobotNilai.ph;
+            document.getElementById('bobot-pts').value = bobotNilai.pts;
+            document.getElementById('bobot-pas').value = bobotNilai.pas;
+            toggleModal('modal-bobot', true);
+        }
+
         /* --- RENDER ENGINES --- */
         function getStatusInfo(status) {
             switch(status) {
-                case 'Belum mulai': return { color: 'bg-gray-300', badge: 'text-gray-600 bg-gray-100', w: '0%' };
-                case 'Sedang dihafal': return { color: 'bg-blue-500', badge: 'text-blue-700 bg-blue-100', w: '50%' };
-                case 'Perlu murajaah': return { color: 'bg-yellow-500', badge: 'text-yellow-800 bg-yellow-100', w: '75%' };
-                case 'Sudah hafal': return { color: 'bg-islamic-500', badge: 'text-islamic-700 bg-islamic-100', w: '100%' };
-                default: return { color: 'bg-gray-300', badge: 'text-gray-600 bg-gray-100', w: '0%' };
+                case 'Belum mulai': return { color: 'bg-txt-muted/50', badge: 'text-txt-muted border border-txt-muted/30 bg-surface-muted', w: '0%' };
+                case 'Sedang dihafal': return { color: 'bg-blue-500', badge: 'text-blue-600 border border-blue-500/30 bg-blue-50/50 dark:bg-blue-900/30 dark:text-blue-400', w: '50%' };
+                case 'Perlu murajaah': return { color: 'bg-yellow-500', badge: 'text-yellow-600 border border-yellow-500/30 bg-yellow-50/50 dark:bg-yellow-900/30 dark:text-yellow-400', w: '75%' };
+                case 'Sudah hafal': return { color: 'bg-brand-500', badge: 'text-brand-600 border border-brand-500/30 bg-brand-50/50 dark:bg-brand-900/30 dark:text-brand-400', w: '100%' };
+                default: return { color: 'bg-txt-muted/50', badge: 'text-txt-muted border border-txt-muted/30 bg-surface-muted', w: '0%' };
             }
         }
 
@@ -752,9 +1120,12 @@
         // Search & Filter Listeners
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                document.querySelectorAll('.filter-btn').forEach(b => { b.classList.remove('bg-islamic-600', 'text-white'); b.classList.add('bg-gray-100', 'text-gray-600'); });
-                e.target.classList.remove('bg-gray-100', 'text-gray-600');
-                e.target.classList.add('bg-islamic-600', 'text-white');
+                document.querySelectorAll('.filter-btn').forEach(b => { 
+                    b.classList.remove('bg-brand-600', 'text-white', 'shadow-md', 'shadow-[var(--shadow-color)]'); 
+                    b.classList.add('bg-surface-muted', 'text-txt-muted'); 
+                });
+                e.target.classList.remove('bg-surface-muted', 'text-txt-muted');
+                e.target.classList.add('bg-brand-600', 'text-white', 'shadow-md', 'shadow-[var(--shadow-color)]');
                 filterStatus = e.target.dataset.filter;
                 renderTracker();
             });
@@ -768,18 +1139,15 @@
             const empty = document.getElementById('empty-tracker');
             const search = document.getElementById('search-tracker').value.toLowerCase();
 
-            // Stats
             document.getElementById('stat-total').innerText = hafalans.length;
             document.getElementById('stat-selesai').innerText = hafalans.filter(h => h.status === 'Sudah hafal').length;
             document.getElementById('stat-murajaah').innerText = hafalans.filter(h => h.status === 'Perlu murajaah').length;
 
-            // Mapping Santri Info
             const enriched = hafalans.map(h => {
                 const s = santris.find(x => x.id === h.santriId) || { nama: 'Unknown', kelas: '?' };
                 return {...h, namaSantri: s.nama, kelas: s.kelas};
             });
 
-            // Filter
             const filtered = enriched.filter(h => {
                 const mFilter = filterStatus === 'Semua' || h.status === filterStatus;
                 const mSearch = h.namaSantri.toLowerCase().includes(search) || h.materi.toLowerCase().includes(search);
@@ -792,16 +1160,16 @@
             } else {
                 empty.classList.add('hidden'); empty.classList.remove('flex');
                 
-                // Group by Kelas
                 const grouped = filtered.reduce((acc, curr) => {
                     if (!acc[curr.kelas]) acc[curr.kelas] = [];
                     acc[curr.kelas].push(curr); return acc;
                 }, {});
 
                 Object.keys(grouped).sort().forEach(kelas => {
-                    list.innerHTML += `<div class="mt-4 mb-2 flex items-center gap-2 border-b-2 border-islamic-100 pb-1">
-                        <div class="bg-islamic-100 text-islamic-700 p-1 rounded"><i class="ph-fill ph-users text-sm"></i></div>
-                        <h2 class="text-sm font-bold text-gray-800">Kelas ${kelas}</h2>
+                    list.innerHTML += `<div class="mt-6 mb-3 flex items-center gap-3">
+                        <div class="bg-brand-100 text-brand-600 p-1.5 rounded-xl border border-brand-200/50 shadow-sm"><i class="ph-fill ph-users text-sm"></i></div>
+                        <h2 class="text-sm font-black text-txt-main tracking-wide uppercase">Kelas ${kelas}</h2>
+                        <div class="h-px bg-glass-border flex-1 ml-2"></div>
                     </div>`;
 
                     grouped[kelas].forEach(data => {
@@ -811,32 +1179,32 @@
                         
                         let nilaiBadge = '';
                         if(data.nilai && data.nilai !== "") {
-                            let warnaNilai = parseInt(data.nilai) >= 80 ? 'bg-green-100 text-green-700 border-green-200' : 'bg-orange-100 text-orange-700 border-orange-200';
-                            nilaiBadge = `<span class="px-2 py-0.5 rounded border text-[10px] font-bold ${warnaNilai} shadow-sm ml-2 flex items-center gap-1"><i class="ph-fill ph-star"></i> Nilai: ${data.nilai}</span>`;
+                            let warnaNilai = parseInt(data.nilai) >= 80 ? 'bg-green-500/10 text-green-600 border-green-500/30 dark:text-green-400' : 'bg-orange-500/10 text-orange-600 border-orange-500/30 dark:text-orange-400';
+                            nilaiBadge = `<span class="px-2 py-0.5 rounded-md border text-[9px] font-black uppercase tracking-wider ${warnaNilai} shadow-sm ml-2 flex items-center gap-1 backdrop-blur-sm"><i class="ph-fill ph-star"></i> Nilai: ${data.nilai}</span>`;
                         }
 
-                        let card = `<div class="glass-panel rounded-xl p-3.5 mb-3 border-l-4 ${data.status === 'Perlu murajaah' ? 'border-yellow-400' : 'border-transparent'} relative">
-                            <div class="flex justify-between items-start mb-2">
-                                <div class="flex items-center gap-3 w-[80%]">
-                                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-islamic-100 to-islamic-200 text-islamic-700 flex items-center justify-center font-bold text-xs border border-islamic-300 flex-shrink-0">${inisial}</div>
+                        let card = `<div class="glass-panel rounded-3xl p-4 mb-4 border-l-[5px] ${data.status === 'Perlu murajaah' ? 'border-yellow-400' : 'border-transparent'} relative transition-all hover:scale-[1.01] duration-300 group">
+                            <div class="flex justify-between items-start mb-3">
+                                <div class="flex items-center gap-3.5 w-[80%]">
+                                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-[var(--brand-200)] to-[var(--brand-100)] dark:from-[var(--brand-800)] dark:to-[var(--brand-700)] text-brand-700 dark:text-brand-100 flex items-center justify-center font-black text-sm border border-brand-300/50 shadow-sm flex-shrink-0">${inisial}</div>
                                     <div class="min-w-0">
-                                        <h3 class="font-bold text-gray-800 text-sm leading-tight truncate flex items-center">${data.namaSantri} ${nilaiBadge}</h3>
-                                        <div class="flex items-center gap-1 mt-0.5 text-[11px] text-gray-500 truncate">
-                                            <i class="ph-fill ${isQ ? 'ph-book-open text-islamic-500' : 'ph-notebook text-blue-500'}"></i>
-                                            <span class="font-semibold text-gray-700">${data.materi}</span> • ${data.rentang}
+                                        <h3 class="font-black text-txt-main text-[15px] leading-tight truncate flex items-center">${data.namaSantri} ${nilaiBadge}</h3>
+                                        <div class="flex items-center gap-1.5 mt-1 text-xs text-txt-muted truncate font-medium">
+                                            <i class="ph-fill ${isQ ? 'ph-book-open text-brand-500' : 'ph-notebook text-blue-500'}"></i>
+                                            <span class="font-bold text-txt-main">${data.materi}</span> • ${data.rentang}
                                         </div>
                                     </div>
                                 </div>
-                                <div class="flex gap-0.5 flex-shrink-0">
-                                    <button onclick="editTracker('${data.id}')" class="p-1 text-gray-400 hover:text-blue-500"><i class="ph ph-pencil-simple text-sm"></i></button>
-                                    <button onclick="deleteTracker('${data.id}')" class="p-1 text-gray-400 hover:text-red-500"><i class="ph ph-trash text-sm"></i></button>
+                                <div class="flex gap-1 flex-shrink-0 opacity-80 group-hover:opacity-100 transition-opacity">
+                                    <button onclick="editTracker('${data.id}')" class="p-1.5 bg-surface-muted text-txt-muted rounded-xl hover:text-blue-500 hover:bg-blue-50/50 dark:hover:bg-blue-900/30 transition-colors"><i class="ph-fill ph-pencil-simple text-[15px]"></i></button>
+                                    <button onclick="deleteTracker('${data.id}')" class="p-1.5 bg-surface-muted text-txt-muted rounded-xl hover:text-red-500 hover:bg-red-50/50 dark:hover:bg-red-900/30 transition-colors"><i class="ph-fill ph-trash text-[15px]"></i></button>
                                 </div>
                             </div>
-                            <div class="mt-2">
-                                <div class="flex justify-between items-center mb-1">
-                                    <span class="text-[9px] font-bold px-2 py-0.5 rounded ${sInfo.badge}">${data.status}</span>
+                            <div class="mt-3 bg-surface-muted/50 p-2.5 rounded-2xl border border-surface-border">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-[9px] font-black px-2 py-1 rounded-md tracking-wider uppercase ${sInfo.badge}">${data.status}</span>
                                 </div>
-                                <div class="w-full bg-gray-100 rounded-full h-1.5"><div class="${sInfo.color} h-1.5 rounded-full" style="width: ${sInfo.w}"></div></div>
+                                <div class="w-full bg-surface-border rounded-full h-2 overflow-hidden"><div class="${sInfo.color} h-2 rounded-full transition-all duration-1000 ease-out" style="width: ${sInfo.w}"></div></div>
                             </div>
                         </div>`;
                         list.innerHTML += card;
@@ -864,20 +1232,20 @@
                 }, {});
 
                 Object.keys(grouped).sort().forEach(kelas => {
-                    list.innerHTML += `<div class="mt-3 mb-2 font-bold text-sm text-islamic-800 bg-islamic-50 px-3 py-1.5 rounded-lg">Kelas ${kelas}</div>`;
+                    list.innerHTML += `<div class="mt-4 mb-3 font-black tracking-wide uppercase text-xs text-brand-700 dark:text-brand-400 bg-brand-100/50 dark:bg-brand-900/30 px-4 py-2 rounded-xl backdrop-blur-sm border border-brand-200/50 dark:border-brand-800/30 w-fit">Kelas ${kelas}</div>`;
                     grouped[kelas].forEach(s => {
                         let totalHafalan = hafalans.filter(h => h.santriId === s.id).length;
-                        let targetText = s.target ? `<div class="text-[10px] text-islamic-600 font-semibold mt-0.5"><i class="ph-fill ph-target"></i> Target: ${s.target}</div>` : '';
+                        let targetText = s.target ? `<div class="text-[10px] text-brand-600 dark:text-brand-400 font-bold mt-1 bg-brand-50 dark:bg-brand-900/50 px-2 py-0.5 rounded border border-brand-200/50 dark:border-brand-800/50 inline-flex items-center gap-1 w-fit"><i class="ph-fill ph-target"></i> ${s.target}</div>` : '';
                         list.innerHTML += `
-                            <div class="glass-panel p-3 rounded-lg mb-2 flex justify-between items-center border border-gray-100">
+                            <div class="glass-panel p-4 rounded-3xl mb-3 flex justify-between items-center transition-all hover:scale-[1.02] duration-300">
                                 <div>
-                                    <div class="font-bold text-gray-800 text-sm">${s.nama}</div>
-                                    <div class="text-[10px] text-gray-500 mt-0.5">${totalHafalan} Catatan Hafalan</div>
+                                    <div class="font-black text-txt-main text-[15px]">${s.nama}</div>
+                                    <div class="text-xs font-semibold text-txt-muted mt-0.5 flex items-center gap-1.5"><i class="ph-fill ph-folder text-brand-400"></i> ${totalHafalan} Catatan</div>
                                     ${targetText}
                                 </div>
-                                <div class="flex gap-1">
-                                    <button onclick="editSantri('${s.id}')" class="p-1.5 bg-blue-50 text-blue-600 rounded-md"><i class="ph ph-pencil-simple"></i></button>
-                                    <button onclick="deleteSantri('${s.id}')" class="p-1.5 bg-red-50 text-red-600 rounded-md"><i class="ph ph-trash"></i></button>
+                                <div class="flex gap-1.5">
+                                    <button onclick="editSantri('${s.id}')" class="p-2 bg-surface-muted text-txt-muted hover:text-blue-500 hover:bg-blue-50/50 dark:hover:bg-blue-900/30 rounded-xl transition-colors"><i class="ph-fill ph-pencil-simple text-base"></i></button>
+                                    <button onclick="deleteSantri('${s.id}')" class="p-2 bg-surface-muted text-txt-muted hover:text-red-500 hover:bg-red-50/50 dark:hover:bg-red-900/30 rounded-xl transition-colors"><i class="ph-fill ph-trash text-base"></i></button>
                                 </div>
                             </div>
                         `;
@@ -891,9 +1259,22 @@
             list.innerHTML = '';
 
             if(santris.length === 0) {
-                list.innerHTML = `<div class="text-center py-10 text-gray-400 text-sm">Belum ada data untuk direkap.</div>`;
+                list.innerHTML = `<div class="text-center py-10 text-txt-muted text-sm font-semibold glass-panel rounded-3xl">Belum ada data untuk direkap.</div>`;
                 return;
             }
+
+            // Tombol Bagikan Laporan Global Keseluruhan
+            list.innerHTML += `
+                <div class="glass-panel p-4 rounded-3xl mb-4 flex justify-between items-center border border-brand-200/50 shadow-sm">
+                    <div>
+                        <h3 class="font-black text-txt-main text-[15px]">Laporan Global</h3>
+                        <p class="text-[10px] text-txt-muted mt-0.5">Statistik seluruh santri</p>
+                    </div>
+                    <button onclick="shareWhatsAppGlobal()" class="text-xs bg-gradient-to-r from-brand-600 to-blob-1 text-white px-3.5 py-2.5 rounded-2xl font-bold shadow-md flex items-center gap-1.5 hover:scale-105 transition-transform cursor-pointer">
+                        <i class="ph-fill ph-whatsapp-logo text-base"></i> Bagikan Global
+                    </button>
+                </div>
+            `;
 
             const grouped = santris.reduce((acc, curr) => {
                 if (!acc[curr.kelas]) acc[curr.kelas] = [];
@@ -901,12 +1282,21 @@
             }, {});
 
             Object.keys(grouped).sort().forEach(kelas => {
-                list.innerHTML += `<div class="mt-4 mb-2 font-bold text-sm text-gray-700 flex items-center gap-2"><i class="ph-fill ph-chalkboard-teacher text-islamic-600"></i> Kelas ${kelas}</div>`;
+                list.innerHTML += `
+                <div class="mt-6 mb-3 flex justify-between items-center">
+                    <div class="font-black text-sm text-txt-main flex items-center gap-2 uppercase tracking-wide">
+                        <div class="p-1.5 rounded-lg bg-gradient-to-r from-[var(--brand-500)] to-[var(--blob-1)] text-white shadow-sm"><i class="ph-fill ph-chalkboard-teacher"></i></div> 
+                        Kelas ${kelas}
+                    </div>
+                    <button onclick="shareWhatsAppKelas('${kelas}')" class="text-[10px] bg-green-500/10 text-green-600 dark:text-green-400 border border-green-500/30 px-2.5 py-1.5 rounded-xl font-bold flex items-center gap-1 hover:bg-green-500/20 transition-colors cursor-pointer">
+                        <i class="ph-fill ph-whatsapp-logo text-sm"></i> Rekap Kelas
+                    </button>
+                </div>`;
                 
                 grouped[kelas].forEach(s => {
                     const sHafalans = hafalans.filter(h => h.santriId === s.id);
+                    const sStats = getStatWaktu(sHafalans);
                     
-                    // Hitung Rata-rata PH (Penilaian Harian)
                     const dinilaiPH = sHafalans.filter(h => h.nilai && h.nilai !== "");
                     let rataPH = 0;
                     if(dinilaiPH.length > 0) {
@@ -914,7 +1304,6 @@
                         rataPH = Math.round(totalPH / dinilaiPH.length);
                     }
 
-                    // Ambil Nilai Ujian & Tentukan Nilai Akhir PTS/PAS (Pilih yang terbesar antara asli vs remidi)
                     const ptsAsli = parseInt(s.pts) || 0;
                     const ptsRemidi = parseInt(s.remidiPts) || 0;
                     const finalPTS = Math.max(ptsAsli, ptsRemidi);
@@ -923,63 +1312,61 @@
                     const pasRemidi = parseInt(s.remidiPas) || 0;
                     const finalPAS = Math.max(pasAsli, pasRemidi);
 
-                    // Hitung Rata-rata Akhir (Contoh: Rata-rata dari PH, PTS, PAS)
-                    // Jika ada nilai yang kosong (0), kita abaikan dari pembagi agar adil, 
-                    // namun di sini kita asumsikan pembagi sesuai dengan jenis ujian yang sudah diisi.
-                    let pembagi = 0;
-                    let totalSemua = 0;
-                    if(rataPH > 0) { totalSemua += rataPH; pembagi++; }
-                    if(finalPTS > 0) { totalSemua += finalPTS; pembagi++; }
-                    if(finalPAS > 0) { totalSemua += finalPAS; pembagi++; }
-                    
-                    let rataAkhir = pembagi > 0 ? Math.round(totalSemua / pembagi) : 0;
+                    // Panggil fungsi perhitungan berdasar bobot persentase
+                    let rataAkhir = calculateFinalGrade(rataPH, finalPTS, finalPAS);
+                    let predikat = getPredikat(rataAkhir);
 
-                    // Badge Warna berdasarkan rata-rata akhir
-                    let warnaAvg = 'bg-gray-100 text-gray-500 border-gray-200';
-                    if(rataAkhir >= 85) warnaAvg = 'bg-green-100 text-green-700 border-green-300';
-                    else if(rataAkhir >= 70) warnaAvg = 'bg-blue-100 text-blue-700 border-blue-300';
-                    else if(rataAkhir > 0) warnaAvg = 'bg-orange-100 text-orange-700 border-orange-300';
+                    let warnaAvg = 'bg-surface-muted text-txt-muted border border-surface-border';
+                    if(rataAkhir >= 85) warnaAvg = 'bg-green-500/10 text-green-600 border border-green-500/30 dark:text-green-400';
+                    else if(rataAkhir >= 70) warnaAvg = 'bg-blue-500/10 text-blue-600 border border-blue-500/30 dark:text-blue-400';
+                    else if(rataAkhir > 0) warnaAvg = 'bg-orange-500/10 text-orange-600 border border-orange-500/30 dark:text-orange-400';
 
                     list.innerHTML += `
-                        <div class="glass-panel p-3.5 rounded-xl mb-3 shadow-sm">
-                            <div class="flex flex-col gap-1 border-b border-gray-100 pb-2 mb-2">
+                        <div class="glass-panel p-4 rounded-[2rem] mb-4 shadow-sm group transition-all hover:shadow-[0_8px_30px_var(--shadow-color)]">
+                            <div class="flex flex-col gap-1 border-b border-surface-border pb-3 mb-3">
                                 <div class="flex justify-between items-start">
-                                    <h3 class="font-bold text-gray-800 text-sm truncate pr-2 w-full">${s.nama}</h3>
-                                    <div class="flex gap-1 flex-shrink-0">
-                                        <button onclick="openUjianModal('${s.id}')" class="text-[10px] bg-blue-50 text-blue-600 p-1.5 rounded-md hover:bg-blue-100 transition-colors" title="Input Nilai Ujian">
+                                    <h3 class="font-black text-txt-main text-[15px] truncate pr-2 w-full">${s.nama}</h3>
+                                    <div class="flex gap-1.5 flex-shrink-0">
+                                        <button onclick="openUjianModal('${s.id}')" class="text-[10px] bg-surface-muted text-txt-muted p-2 rounded-xl hover:text-blue-500 hover:bg-blue-50/50 dark:hover:bg-blue-900/30 transition-colors shadow-sm" title="Input Nilai Ujian">
                                             <i class="ph-fill ph-pencil-simple text-sm"></i>
                                         </button>
-                                        <button onclick="shareWhatsApp('${s.id}')" class="text-[10px] bg-green-50 text-green-600 px-2 py-1.5 rounded-md font-bold hover:bg-green-100 flex items-center gap-1 transition-colors">
+                                        <button onclick="shareWhatsApp('${s.id}')" class="text-[10px] bg-gradient-to-r from-green-500 to-emerald-400 text-white px-2.5 py-1.5 rounded-xl font-bold shadow-md shadow-green-500/20 flex items-center gap-1.5 hover:scale-105 transition-transform cursor-pointer">
                                             <i class="ph-fill ph-whatsapp-logo text-sm"></i> Laporan
                                         </button>
                                     </div>
                                 </div>
-                                ${s.target ? `<div class="text-[10px] text-gray-500 flex items-center gap-1"><i class="ph-fill ph-target text-islamic-500"></i> Target: <span class="font-semibold">${s.target}</span></div>` : ''}
+                                ${s.target ? `<div class="text-[10px] text-txt-muted font-medium flex items-center gap-1.5"><i class="ph-fill ph-target text-brand-500"></i> Target: <span class="font-black text-txt-main">${s.target}</span></div>` : ''}
+                                <div class="text-[9px] text-txt-muted mt-1.5 flex gap-2">
+                                    <span class="bg-surface-muted px-1.5 py-0.5 rounded text-txt-main font-bold">Hr: ${sStats.hariIni}</span>
+                                    <span class="bg-surface-muted px-1.5 py-0.5 rounded text-txt-main font-bold">Pk: ${sStats.pekanIni}</span>
+                                    <span class="bg-surface-muted px-1.5 py-0.5 rounded text-txt-main font-bold">Bl: ${sStats.bulanIni}</span>
+                                </div>
                             </div>
 
-                            <div class="grid grid-cols-4 gap-2 text-center mb-2">
-                                <div class="bg-gray-50 p-1.5 rounded-lg border border-gray-100">
-                                    <div class="text-[9px] text-gray-400 font-bold mb-0.5">RATA PH</div>
-                                    <div class="font-bold text-sm text-islamic-600">${rataPH > 0 ? rataPH : '-'}</div>
+                            <div class="grid grid-cols-4 gap-2 text-center mb-3">
+                                <div class="bg-surface-muted/50 p-2 rounded-2xl border border-surface-border">
+                                    <div class="text-[8px] text-txt-muted font-black tracking-widest mb-1">RATA PH</div>
+                                    <div class="font-black text-[15px] text-brand-600 drop-shadow-sm">${rataPH > 0 ? rataPH : '-'}</div>
                                 </div>
-                                <div class="bg-gray-50 p-1.5 rounded-lg border border-gray-100 relative">
-                                    ${ptsRemidi > ptsAsli && ptsAsli > 0 ? '<div class="absolute -top-1.5 -right-1.5 bg-yellow-400 text-white text-[8px] px-1 rounded-full font-bold">R</div>' : ''}
-                                    <div class="text-[9px] text-gray-400 font-bold mb-0.5">PTS</div>
-                                    <div class="font-bold text-sm text-gray-700">${finalPTS > 0 ? finalPTS : '-'}</div>
+                                <div class="bg-surface-muted/50 p-2 rounded-2xl border border-surface-border relative">
+                                    ${ptsRemidi > ptsAsli && ptsAsli > 0 ? '<div class="absolute -top-1.5 -right-1.5 bg-yellow-500 text-white text-[8px] px-1.5 py-0.5 rounded-md font-black shadow-sm">R</div>' : ''}
+                                    <div class="text-[8px] text-txt-muted font-black tracking-widest mb-1">PTS</div>
+                                    <div class="font-black text-[15px] text-txt-main">${finalPTS > 0 ? finalPTS : '-'}</div>
                                 </div>
-                                <div class="bg-gray-50 p-1.5 rounded-lg border border-gray-100 relative">
-                                    ${pasRemidi > pasAsli && pasAsli > 0 ? '<div class="absolute -top-1.5 -right-1.5 bg-yellow-400 text-white text-[8px] px-1 rounded-full font-bold">R</div>' : ''}
-                                    <div class="text-[9px] text-gray-400 font-bold mb-0.5">PAS</div>
-                                    <div class="font-bold text-sm text-gray-700">${finalPAS > 0 ? finalPAS : '-'}</div>
+                                <div class="bg-surface-muted/50 p-2 rounded-2xl border border-surface-border relative">
+                                    ${pasRemidi > pasAsli && pasAsli > 0 ? '<div class="absolute -top-1.5 -right-1.5 bg-yellow-500 text-white text-[8px] px-1.5 py-0.5 rounded-md font-black shadow-sm">R</div>' : ''}
+                                    <div class="text-[8px] text-txt-muted font-black tracking-widest mb-1">PAS</div>
+                                    <div class="font-black text-[15px] text-txt-main">${finalPAS > 0 ? finalPAS : '-'}</div>
                                 </div>
-                                <div class="${warnaAvg} p-1.5 rounded-lg border shadow-inner flex flex-col justify-center">
-                                    <div class="text-[9px] font-bold opacity-80 mb-0.5 uppercase">Akhir</div>
-                                    <div class="font-bold text-sm">${rataAkhir > 0 ? rataAkhir : '-'}</div>
+                                <div class="${warnaAvg} p-2 rounded-2xl shadow-inner flex flex-col justify-center relative">
+                                    ${rataAkhir > 0 ? `<div class="absolute -top-1.5 -right-1.5 bg-brand-500 text-white text-[9px] px-1.5 py-0.5 rounded-md font-black shadow-sm">${predikat}</div>` : ''}
+                                    <div class="text-[8px] font-black opacity-80 tracking-widest mb-1">AKHIR</div>
+                                    <div class="font-black text-[15px]">${rataAkhir > 0 ? rataAkhir : '-'}</div>
                                 </div>
                             </div>
-                            <div class="flex text-[9px] text-gray-400 justify-between px-1 bg-gray-50 rounded py-1 border border-gray-100">
-                                <span><span class="font-semibold text-gray-500">PH Masuk:</span> ${dinilaiPH.length} Setoran</span>
-                                <span><span class="font-semibold text-gray-500">Status Ujian:</span> ${finalPTS > 0 && finalPAS > 0 ? '<span class="text-green-500">Lengkap</span>' : '<span class="text-orange-500">Belum Lengkap</span>'}</span>
+                            <div class="flex text-[9px] text-txt-muted font-semibold justify-between px-2 bg-surface-muted rounded-xl py-1.5 border border-surface-border">
+                                <span><span class="font-black text-txt-main">PH Masuk:</span> ${dinilaiPH.length} Setoran</span>
+                                <span><span class="font-black text-txt-main">Ujian:</span> ${finalPTS > 0 && finalPAS > 0 ? '<span class="text-green-500">Lengkap</span>' : '<span class="text-orange-500">Belum Lengkap</span>'}</span>
                             </div>
                         </div>
                     `;
