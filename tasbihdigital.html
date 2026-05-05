@@ -1,594 +1,663 @@
 <!DOCTYPE html>
-<html lang="id" class="light">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Tasbih Digital Modern & Fisik</title>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    
+    <title>Tasbih Digital Premium</title>
+
+    <meta name="theme-color" content="#8c52ff">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Tasbih">
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        islamic: { light: '#f0fdf4', primary: '#059669', dark: '#064e3b', gold: '#d97706' }
+                        primary: '#8c52ff',
+                        secondary: '#d099ff',
                     },
-                    fontFamily: { digital: ['"Share Tech Mono"', 'monospace'] }
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
                 }
             }
         }
     </script>
-    <style>
-        * { -webkit-tap-highlight-color: transparent; }
-        .transition-all-smooth { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .progress-ring__circle { transition: stroke-dashoffset 0.35s transform 0.3s; transform: rotate(-90deg); transform-origin: 50% 50%; }
-        .tap-effect:active { transform: scale(0.95); }
-        ::-webkit-scrollbar { width: 0px; background: transparent; }
 
-        /* Custom Styles for Physical Themes */
-        .lcd-shadow { box-shadow: inset 0 4px 15px rgba(0,0,0,0.4); }
-        .btn-3d-shadow { box-shadow: inset 0 5px 15px rgba(255,255,255,0.2), 0 10px 20px rgba(0,0,0,0.5); }
-        .btn-3d-shadow:active { box-shadow: inset 0 5px 15px rgba(0,0,0,0.4), 0 5px 10px rgba(0,0,0,0.5); }
-        .lcd-screen-bg { background-color: #9ea792; color: #1a1a1a; }
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Share+Tech+Mono&display=swap');
         
-        /* 7 Physical Theme Variants */
-        .theme-physical-black { background: linear-gradient(145deg, #374151, #111827); border-color: #1f2937; }
-        .theme-physical-wood  { background: linear-gradient(145deg, #92400e, #451a03); border-color: #78350f; }
-        .theme-physical-putih { background: linear-gradient(145deg, #f3f4f6, #d1d5db); border-color: #9ca3af; }
-        .theme-physical-emas  { background: linear-gradient(145deg, #d97706, #92400e); border-color: #b45309; }
-        .theme-physical-biru  { background: linear-gradient(145deg, #1e40af, #1e3a8a); border-color: #172554; }
-        .theme-physical-merah { background: linear-gradient(145deg, #991b1b, #7f1d1d); border-color: #450a0a; }
-        .theme-physical-hijau { background: linear-gradient(145deg, #166534, #14532d); border-color: #052e16; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .font-digital { font-family: 'Share Tech Mono', monospace; }
+        
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #d099ff; border-radius: 4px; }
+        .dark ::-webkit-scrollbar-thumb { background: #8c52ff; }
+        
+        * { -webkit-tap-highlight-color: transparent; }
+
+        /* Custom Gradient for text and backgrounds */
+        .text-gradient {
+            background: linear-gradient(to right, #8c52ff, #d099ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .bg-gradient-feminine {
+            background: linear-gradient(135deg, #8c52ff, #d099ff);
+        }
+        .bg-gradient-splash {
+            background: linear-gradient(135deg, #fbcfe8, #f472b6, #d099ff, #8c52ff);
+            background-size: 200% 200%;
+            animation: gradientMove 5s ease infinite;
+        }
+        
+        /* Custom Animations */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+        @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes gradientMove { 
+            0% { background-position: 0% 50%; } 
+            50% { background-position: 100% 50%; } 
+            100% { background-position: 0% 50%; } 
+        }
+        
+        .progress-ring__circle {
+            transition: stroke-dashoffset 0.35s ease-out;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+
+        /* 10 Bentuk Tasbih Utilities */
+        .shape-diamond { transform: rotate(45deg); }
+        .shape-diamond-inner { transform: rotate(-45deg); }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 transition-colors duration-300 antialiased h-screen flex justify-center overflow-hidden">
+<body class="bg-slate-900 text-slate-50 overflow-x-hidden transition-colors duration-1000">
+    <div id="root"></div>
 
-    <main class="w-full max-w-md h-full flex flex-col relative bg-white dark:bg-slate-800 shadow-2xl overflow-y-auto">
-        <!-- Header -->
-        <header class="p-4 flex justify-between items-center border-b border-slate-100 dark:border-slate-700 bg-islamic-primary text-white shadow-sm z-20">
-            <h1 class="text-lg font-bold tracking-wide flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/></svg>
-                Tasbih App
-            </h1>
-            <div class="flex gap-2 items-center">
-                <select id="themeSelect" class="text-xs bg-white/20 text-white border border-white/30 rounded-lg p-1.5 focus:outline-none focus:ring-2 focus:ring-white/50 [&>option]:text-slate-800 [&>optgroup]:text-slate-800">
-                    <optgroup label="Tema Modern">
-                        <option value="modern">Modern (Emerald)</option>
-                        <option value="modern-dark">Modern (Malam)</option>
-                        <option value="modern-minimal">Modern (Minimalis)</option>
-                    </optgroup>
-                    <optgroup label="Tema Fisik">
-                        <option value="fisik-hitam">Fisik (Hitam)</option>
-                        <option value="fisik-kayu">Fisik (Kayu)</option>
-                        <option value="fisik-putih">Fisik (Putih)</option>
-                        <option value="fisik-emas">Fisik (Emas)</option>
-                        <option value="fisik-biru">Fisik (Biru Navy)</option>
-                        <option value="fisik-merah">Fisik (Merah Maroon)</option>
-                        <option value="fisik-hijau">Fisik (Hijau Gelap)</option>
-                    </optgroup>
-                </select>
-                <button id="btnSound" class="p-1.5 rounded-full hover:bg-white/20" title="Mode Suara">
-                    <!-- Sound On -->
-                    <svg id="iconSoundClick" class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
-                    <!-- Sound Off -->
-                    <svg id="iconSoundOff" class="w-4 h-4 hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
-                </button>
-            </div>
-        </header>
+    <script type="text/babel">
+        const { useState, useEffect, useMemo, useRef, useCallback } = React;
 
-        <!-- Content Area -->
-        <div class="flex-1 p-5 flex flex-col gap-4 overflow-y-auto">
-            <!-- Controls: Dzikir & Target -->
-            <div class="bg-islamic-light dark:bg-slate-700/50 p-3 rounded-xl shadow-sm border border-islamic-primary/20">
-                <div class="flex items-center justify-between gap-3">
-                    <div class="flex-1">
-                        <select id="dzikirSelect" class="w-full p-2 text-sm rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 focus:ring-1 focus:ring-islamic-primary appearance-none font-medium">
-                            <option value="Subhanallah">Subhanallah</option>
-                            <option value="Alhamdulillah">Alhamdulillah</option>
-                            <option value="Allahu Akbar">Allahu Akbar</option>
-                            <option value="La Ilaha Illallah">La Ilaha Illallah</option>
-                            <option value="Astaghfirullah">Astaghfirullah (Istighfar)</option>
-                        </select>
-                    </div>
-                    <div class="w-24">
-                        <div class="flex items-center gap-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg p-1">
-                            <span class="text-xs text-slate-500 pl-1 font-bold">🎯</span>
-                            <input type="number" id="targetInput" value="33" min="1" class="w-full bg-transparent text-sm font-bold focus:outline-none text-center">
-                        </div>
-                    </div>
-                </div>
-            </div>
+        // --- ICONS ---
+        const IconMoon = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>;
+        const IconSun = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>;
+        const IconSettings = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>;
+        const IconVolume2 = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>;
+        const IconVolumeX = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>;
+        const IconX = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>;
+        const IconUser = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>;
+        const IconActivity = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>;
+        const IconTarget = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>;
+        const IconRefresh = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>;
+        const IconCheckCircle = ({className}) => <svg xmlns="http://www.w3.org/2000/svg" className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>;
 
-            <!-- Main Tasbih Shell (Adapts to Theme) -->
-            <div id="tasbihShell" class="transition-all-smooth relative flex flex-col items-center w-full max-w-[320px] mx-auto p-5 py-8 rounded-[3rem]">
-                <!-- LCD Screen Area -->
-                <div id="lcdScreen" class="transition-all-smooth relative w-full max-w-[220px] h-24 rounded-2xl mb-6 flex flex-col items-center justify-center z-10">
-                    <span id="counterDisplay" class="transition-all-smooth text-6xl font-black mb-1 text-islamic-dark dark:text-white">0</span>
-                    <span id="targetDisplayBox" class="transition-all-smooth text-xs font-medium px-4 py-1.5 rounded-full text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-700/50">
-                        Target: <span id="targetDisplay">33</span>
-                    </span>
-                </div>
+        // --- 10 BENTUK TASBIH ---
+        const SHAPES = [
+            { id: 'circle', name: 'Bulat Klasik', class: 'rounded-full w-44 h-44', innerClass: '' },
+            { id: 'squircle', name: 'Kotak Ergonomis', class: 'rounded-[2rem] w-44 h-44', innerClass: '' },
+            { id: 'dome', name: 'Kubah Elegan', class: 'rounded-t-[4rem] rounded-b-2xl w-44 h-44', innerClass: '' },
+            { id: 'leaf', name: 'Daun Teratai', class: 'rounded-tl-[4rem] rounded-br-[4rem] rounded-tr-xl rounded-bl-xl w-44 h-44', innerClass: '' },
+            { id: 'diamond', name: 'Berlian Simetris', class: 'rounded-2xl w-40 h-40 shape-diamond', innerClass: 'shape-diamond-inner' },
+            { id: 'double', name: 'Cincin Ganda', class: 'rounded-full w-44 h-44 border-8 border-white/40 shadow-[inset_0_0_20px_rgba(255,255,255,0.4)]', innerClass: '' },
+            { id: 'pill', name: 'Kapsul Lebar', class: 'rounded-[3rem] w-48 h-36', innerClass: '' },
+            { id: '3d', name: 'Dimensi 3D', class: 'rounded-full w-44 h-44 shadow-[inset_0_-15px_20px_rgba(0,0,0,0.15),0_10px_20px_rgba(140,82,255,0.3)]', innerClass: '' },
+            { id: 'aura', name: 'Aura Berlapis', class: 'rounded-full w-40 h-40 ring-4 ring-offset-8 ring-offset-primary/20 ring-primary/40', innerClass: '' },
+            { id: 'minimal', name: 'Minimalis', class: 'rounded-[2.5rem] w-44 h-44 bg-opacity-70 backdrop-blur-sm border border-white/50', innerClass: '' },
+        ];
 
-                <!-- Interactive Area -->
-                <div class="relative flex items-center justify-center w-[260px] h-[260px]">
-                    <!-- SVG Circular Progress (Modern Themes) -->
-                    <svg id="svgProgress" class="absolute inset-0 w-full h-full pointer-events-none transition-opacity duration-500" viewBox="0 0 100 100">
-                        <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="2" class="text-slate-200 dark:text-slate-700/50" />
-                        <circle id="progressCircle" cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" class="text-islamic-primary progress-ring__circle transition-colors duration-300 drop-shadow-md" />
-                    </svg>
+        // --- UTILS & DATA ---
+        const safeGetItem = (key, defaultValue) => {
+            try { const item = localStorage.getItem(key); return item !== null ? JSON.parse(item) : defaultValue; } 
+            catch (error) { return defaultValue; }
+        };
+        const safeSetItem = (key, value) => {
+            try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+        };
 
-                    <!-- Physical Reset Button (Fisik Themes) -->
-                    <button id="physicalResetBtn" class="hidden absolute right-0 top-2 w-10 h-10 rounded-full bg-red-600 border-2 border-red-800 shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_4px_8px_rgba(0,0,0,0.5)] tap-effect active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)] flex items-center justify-center z-20" title="Reset">
-                        <span class="text-[11px] text-white font-bold tracking-tighter">RST</span>
-                    </button>
+        const getWeekNumber = (d) => {
+            d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+            const yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+            return Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
+        };
 
-                    <!-- Main Button -->
-                    <button id="mainBtn" class="transition-all-smooth tap-effect relative flex items-center justify-center w-40 h-40 rounded-full outline-none focus:outline-none group z-10">
-                        <div id="rippleEffect" class="absolute inset-0 rounded-full bg-islamic-primary opacity-0 group-active:opacity-10 transition-opacity duration-100 pointer-events-none"></div>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Statistics Box (Per Zikir) -->
-            <div class="mt-auto bg-slate-100 dark:bg-slate-800/80 rounded-2xl p-4 border border-slate-200 dark:border-slate-700">
-                <div class="flex justify-between items-center mb-3">
-                    <h3 class="text-sm font-bold flex items-center gap-2">
-                        <svg class="w-4 h-4 text-islamic-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
-                        Statistik: <span id="statTitle" class="text-islamic-dark dark:text-islamic-light ml-1 font-semibold">Subhanallah</span>
-                    </h3>
-                    <button id="btnReset" class="text-xs font-semibold text-red-500 hover:text-red-700 dark:text-red-400 py-1 px-2 bg-red-50 dark:bg-red-900/20 rounded-md">
-                        Reset Sesi
-                    </button>
-                </div>
-                <div class="grid grid-cols-3 gap-2">
-                    <div class="text-center p-2 bg-white dark:bg-slate-700 rounded-xl shadow-sm">
-                        <span class="block text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Harian</span>
-                        <span id="statDaily" class="text-lg font-black text-islamic-dark dark:text-white">0</span>
-                    </div>
-                    <div class="text-center p-2 bg-white dark:bg-slate-700 rounded-xl shadow-sm">
-                        <span class="block text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Pekanan</span>
-                        <span id="statWeekly" class="text-lg font-black text-islamic-dark dark:text-white">0</span>
-                    </div>
-                    <div class="text-center p-2 bg-white dark:bg-slate-700 rounded-xl shadow-sm border border-islamic-primary/20">
-                        <span class="block text-[10px] text-islamic-primary font-bold uppercase tracking-wider mb-1">Bulanan</span>
-                        <span id="statMonthly" class="text-lg font-black text-islamic-primary">0</span>
-                    </div>
-                </div>
-                <p class="text-[10px] text-center text-slate-400 mt-3 flex items-center justify-center gap-1">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    Data bulanan akan otomatis reset setiap tanggal 1
-                </p>
-            </div>
-        </div>
-
-        <!-- Notification Modal -->
-        <div id="notifModal" class="fixed inset-0 z-50 hidden items-center justify-center px-4">
-            <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"></div>
-            <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 w-full max-w-sm relative z-10 shadow-2xl transform scale-100">
-                <div class="w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mx-auto mb-4">
-                    <svg class="w-8 h-8 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                </div>
-                <h3 id="notifTitle" class="text-xl font-bold text-center mb-2">Pemberitahuan</h3>
-                <p id="notifText" class="text-center text-slate-500 dark:text-slate-400 mb-6 text-sm">Pesan</p>
-                <button id="btnCloseNotif" class="w-full p-3 rounded-xl bg-islamic-primary text-white font-semibold hover:bg-islamic-dark transition-colors">Tutup</button>
-            </div>
-        </div>
-    </main>
-
-    <script>
-        // --- STATE & DATA STRUCTURE ---
         const defaultStats = {
             'Subhanallah': { daily: 0, weekly: 0, monthly: 0 },
             'Alhamdulillah': { daily: 0, weekly: 0, monthly: 0 },
             'Allahu Akbar': { daily: 0, weekly: 0, monthly: 0 },
             'La Ilaha Illallah': { daily: 0, weekly: 0, monthly: 0 },
-            'Astaghfirullah': { daily: 0, weekly: 0, monthly: 0 }
+            'Astaghfirullah': { daily: 0, weekly: 0, monthly: 0 },
+            'Sholawat Nabi': { daily: 0, weekly: 0, monthly: 0 },
+            'Zikir Bebas': { daily: 0, weekly: 0, monthly: 0 },
         };
 
-        let appData = {
-            count: 0,
-            target: 33,
-            currentDzikir: 'Subhanallah',
-            stats: JSON.parse(JSON.stringify(defaultStats)),
-            lastDate: '',
-            lastWeek: -1,
-            lastMonth: -1,
-            theme: 'modern',
-            soundMode: 1 // 1 = on, 0 = off
-        };
-        
-        let saveTimeout = null;
+        const App = () => {
+            // --- SPLASH SCREEN STATE ---
+            const [showSplash, setShowSplash] = useState(true);
+            const [splashFading, setSplashFading] = useState(false);
 
-        // --- ELEMEN DOM ---
-        const els = {
-            mainBtn: document.getElementById('mainBtn'),
-            counterDisplay: document.getElementById('counterDisplay'),
-            targetDisplay: document.getElementById('targetDisplay'),
-            targetInput: document.getElementById('targetInput'),
-            progressCircle: document.getElementById('progressCircle'),
-            svgProgress: document.getElementById('svgProgress'),
-            dzikirSelect: document.getElementById('dzikirSelect'),
-            statTitle: document.getElementById('statTitle'),
-            statDaily: document.getElementById('statDaily'),
-            statWeekly: document.getElementById('statWeekly'),
-            statMonthly: document.getElementById('statMonthly'),
-            themeSelect: document.getElementById('themeSelect'),
-            tasbihShell: document.getElementById('tasbihShell'),
-            lcdScreen: document.getElementById('lcdScreen'),
-            targetDisplayBox: document.getElementById('targetDisplayBox'),
-            physicalResetBtn: document.getElementById('physicalResetBtn'),
-            rippleEffect: document.getElementById('rippleEffect'),
-            btnReset: document.getElementById('btnReset'),
-            notifModal: document.getElementById('notifModal'),
-            notifTitle: document.getElementById('notifTitle'),
-            notifText: document.getElementById('notifText'),
-            btnCloseNotif: document.getElementById('btnCloseNotif'),
-            btnSound: document.getElementById('btnSound'),
-            iconSoundClick: document.getElementById('iconSoundClick'),
-            iconSoundOff: document.getElementById('iconSoundOff')
-        };
+            // --- STATE: PREFERENCES ---
+            const [userName, setUserName] = useState(() => safeGetItem('tasbih_user_name', "Muslimah"));
+            const [isDarkMode, setIsDarkMode] = useState(() => safeGetItem('tasbih_dark_mode', false));
+            const [audioEnabled, setAudioEnabled] = useState(() => safeGetItem('tasbih_audio', true));
+            const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+            const [activeShapeId, setActiveShapeId] = useState(() => safeGetItem('tasbih_shape_id', 'circle'));
 
-        // --- DATE HELPERS ---
-        function getWeekNumber(d) {
-            d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
-            var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
-            return Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
-        }
-
-        function checkAndResetDates(showNotification = true) {
-            const now = new Date();
-            const curMonth = now.getMonth();
-            const curWeek = getWeekNumber(now);
-            const curDate = now.toDateString();
-            let changed = false;
-
-            if (appData.lastMonth === -1) {
-                appData.lastMonth = curMonth;
-                appData.lastWeek = curWeek;
-                appData.lastDate = curDate;
-                return true;
-            }
-
-            // Cek Pergantian Bulan
-            if (appData.lastMonth !== curMonth) {
-                appData.count = 0;
-                for (let key in appData.stats) {
-                    appData.stats[key].daily = 0;
-                    appData.stats[key].weekly = 0;
-                    appData.stats[key].monthly = 0;
+            // --- STATE: TASBIH ---
+            const [count, setCount] = useState(() => safeGetItem('tasbih_count', 0));
+            const [target, setTarget] = useState(() => safeGetItem('tasbih_target', 33));
+            const [currentDzikir, setCurrentDzikir] = useState(() => safeGetItem('tasbih_current', 'Subhanallah'));
+            const [stats, setStats] = useState(() => {
+                const loaded = safeGetItem('tasbih_stats', defaultStats);
+                const merged = {...defaultStats};
+                for(let key in defaultStats) {
+                    if(loaded[key]) merged[key] = loaded[key];
                 }
-                if (showNotification) showNotif("Bulan Baru!", "Alhamdulillah kita memasuki bulan baru. Statistik zikir bulanan telah direset otomatis.");
-                changed = true;
-            } else {
-                // Cek Pergantian Pekan
-                if (appData.lastWeek !== curWeek) {
-                    for (let key in appData.stats) {
-                        appData.stats[key].daily = 0;
-                        appData.stats[key].weekly = 0;
+                return merged;
+            });
+            const [lastDates, setLastDates] = useState(() => safeGetItem('tasbih_dates', { month: -1, week: -1, date: '' }));
+            const [showTargetReached, setShowTargetReached] = useState(false);
+            const [animatingTap, setAnimatingTap] = useState(false);
+
+            // --- AUDIO CONTEXT ---
+            const audioCtxRef = useRef(null);
+
+            // --- THEME DEFINITION (Warna Tetap Sama) ---
+            const theme = useMemo(() => ({
+                bg: isDarkMode ? 'bg-[#1a1128]' : 'bg-fuchsia-50/50',
+                text: isDarkMode ? 'text-fuchsia-50' : 'text-slate-800',
+                textMuted: isDarkMode ? 'text-fuchsia-300/70' : 'text-slate-500',
+                panel: isDarkMode ? 'bg-[#2d1b4e]/60 border-[#8c52ff]/20 shadow-[0_8px_30px_rgb(0,0,0,0.5)]' : 'bg-white/80 border-fuchsia-200 shadow-[0_8px_30px_rgb(140,82,255,0.06)]',
+                inputBg: isDarkMode ? 'bg-[#1a1128]/80 border-[#8c52ff]/30 focus:border-secondary text-white' : 'bg-fuchsia-50 border-fuchsia-200 focus:border-primary text-slate-800',
+                card: isDarkMode ? 'bg-[#2d1b4e]/40 border-[#8c52ff]/20 hover:bg-[#2d1b4e]/80' : 'bg-white border-fuchsia-100 hover:shadow-lg',
+                circleBg: isDarkMode ? 'stroke-[#8c52ff]/20' : 'stroke-fuchsia-200',
+                primaryColor: 'primary',
+                secondaryColor: 'secondary'
+            }), [isDarkMode]);
+
+            // --- EFFECT: SPLASH SCREEN LOGIC ---
+            useEffect(() => {
+                const fadeTimer = setTimeout(() => {
+                    setSplashFading(true);
+                }, 2000); // Mulai fade out setelah 2 detik
+
+                const removeTimer = setTimeout(() => {
+                    setShowSplash(false);
+                }, 3000); // Hapus dari DOM setelah 3 detik
+
+                return () => { clearTimeout(fadeTimer); clearTimeout(removeTimer); };
+            }, []);
+
+            // --- EFFECT: SYNC BODY CLASS ---
+            useEffect(() => {
+                if (isDarkMode) document.documentElement.classList.add('dark');
+                else document.documentElement.classList.remove('dark');
+                safeSetItem('tasbih_dark_mode', isDarkMode);
+            }, [isDarkMode]);
+
+            // --- EFFECT: CHECK DATE RESET ---
+            useEffect(() => {
+                const now = new Date();
+                const curMonth = now.getMonth();
+                const curWeek = getWeekNumber(now);
+                const curDate = now.toDateString();
+
+                let changed = false;
+                let newStats = { ...stats };
+
+                if (lastDates.month === -1) {
+                    setLastDates({ month: curMonth, week: curWeek, date: curDate });
+                    safeSetItem('tasbih_dates', { month: curMonth, week: curWeek, date: curDate });
+                    return;
+                }
+
+                if (lastDates.month !== curMonth) {
+                    for (let key in newStats) {
+                        newStats[key].daily = 0;
+                        newStats[key].weekly = 0;
+                        newStats[key].monthly = 0;
                     }
                     changed = true;
-                } else if (appData.lastDate !== curDate) { // Cek Pergantian Hari
-                    for (let key in appData.stats) {
-                        appData.stats[key].daily = 0;
-                    }
-                    changed = true;
-                }
-            }
-
-            appData.lastMonth = curMonth;
-            appData.lastWeek = curWeek;
-            appData.lastDate = curDate;
-            return changed;
-        }
-
-        // --- LOCAL STORAGE ---
-        function loadFromLocal() {
-            try {
-                const savedData = localStorage.getItem('tasbih_app_data');
-                if (savedData) {
-                    const parsed = JSON.parse(savedData);
-                    
-                    // Migrasi dari versi lama (sebelum statistik dipisah per zikir)
-                    if (!parsed.stats) {
-                        parsed.stats = JSON.parse(JSON.stringify(defaultStats));
-                        let dzikirLama = parsed.currentDzikir || 'Subhanallah';
-                        parsed.stats[dzikirLama].daily = parsed.daily || 0;
-                        parsed.stats[dzikirLama].weekly = parsed.weekly || 0;
-                        parsed.stats[dzikirLama].monthly = parsed.monthly || 0;
-                    }
-                    if (!parsed.currentDzikir) parsed.currentDzikir = 'Subhanallah';
-                    
-                    appData = { ...appData, ...parsed };
-                    
-                    // Pastikan semua jenis zikir ada object stat-nya
-                    for(let key in defaultStats) {
-                        if(!appData.stats[key]) appData.stats[key] = { daily: 0, weekly: 0, monthly: 0 };
-                    }
-
-                    els.targetInput.value = appData.target;
-                    els.themeSelect.value = appData.theme;
-                    els.dzikirSelect.value = appData.currentDzikir;
-                }
-            } catch (e) {
-                console.error("Gagal memuat data dari browser:", e);
-            }
-        }
-
-        function saveToLocal() {
-            clearTimeout(saveTimeout);
-            saveTimeout = setTimeout(() => {
-                try {
-                    localStorage.setItem('tasbih_app_data', JSON.stringify(appData));
-                } catch (e) { console.error("Gagal menyimpan ke browser:", e); }
-            }, 500);
-        }
-
-        // --- CORE UI FUNCTIONS ---
-        function updateUI() {
-            let dzikir = appData.currentDzikir;
-            els.statTitle.innerText = dzikir;
-            
-            els.counterDisplay.innerText = appData.count;
-            els.targetDisplay.innerText = appData.target;
-            els.statDaily.innerText = appData.stats[dzikir].daily;
-            els.statWeekly.innerText = appData.stats[dzikir].weekly;
-            els.statMonthly.innerText = appData.stats[dzikir].monthly;
-
-            // Update Progress Circle (Tema Modern)
-            if (appData.theme.startsWith('modern')) {
-                const radius = els.progressCircle.r.baseVal.value;
-                const circumference = radius * 2 * Math.PI;
-                els.progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
-                
-                let percent = (appData.count / appData.target) * 100;
-                if (percent > 100) percent = 100;
-                const offset = circumference - (percent / 100) * circumference;
-                els.progressCircle.style.strokeDashoffset = offset;
-
-                // Dinamis warna ring sesuai sub-tema modern
-                els.progressCircle.className = 'progress-ring__circle transition-colors duration-300 drop-shadow-md';
-                let colorClass = 'text-islamic-primary';
-                let glowShadow = 'drop-shadow(0px 4px 8px rgba(5, 150, 105, 0.4))';
-                let goldClass = 'text-islamic-gold';
-                let goldShadow = 'drop-shadow(0px 4px 8px rgba(217, 119, 6, 0.5))';
-
-                if (appData.theme === 'modern-dark') {
-                    colorClass = 'text-blue-500';
-                    glowShadow = 'drop-shadow(0px 4px 8px rgba(59, 130, 246, 0.4))';
-                    goldClass = 'text-yellow-400';
-                    goldShadow = 'drop-shadow(0px 4px 8px rgba(250, 204, 21, 0.5))';
-                } else if (appData.theme === 'modern-minimal') {
-                    colorClass = 'text-slate-400';
-                    glowShadow = 'none';
-                    goldClass = 'text-slate-700 dark:text-white';
-                    goldShadow = 'drop-shadow(0px 2px 4px rgba(0,0,0,0.3))';
-                }
-
-                if (appData.count >= appData.target && appData.target > 0) {
-                    els.progressCircle.classList.add(goldClass);
-                    els.progressCircle.style.filter = goldShadow;
                 } else {
-                    els.progressCircle.classList.add(colorClass);
-                    els.progressCircle.style.filter = glowShadow;
+                    if (lastDates.week !== curWeek) {
+                        for (let key in newStats) {
+                            newStats[key].daily = 0;
+                            newStats[key].weekly = 0;
+                        }
+                        changed = true;
+                    } else if (lastDates.date !== curDate) {
+                        for (let key in newStats) {
+                            newStats[key].daily = 0;
+                        }
+                        changed = true;
+                    }
                 }
-            }
-        }
 
-        function applyTheme(themeName) {
-            appData.theme = themeName;
-            
-            // Reset Base Classes
-            els.tasbihShell.className = 'transition-all-smooth relative flex flex-col items-center w-full max-w-[320px] mx-auto p-5 py-8 rounded-[3rem]';
-            els.lcdScreen.className = 'transition-all-smooth relative w-full max-w-[220px] h-24 rounded-2xl mb-6 flex flex-col items-center justify-center z-10';
-            els.counterDisplay.className = 'transition-all-smooth mb-1';
-            els.mainBtn.className = 'transition-all-smooth tap-effect relative flex items-center justify-center w-40 h-40 rounded-full outline-none focus:outline-none group z-10';
-            els.targetDisplayBox.className = 'transition-all-smooth text-xs font-medium px-4 py-1.5 rounded-full';
-            els.progressCircle.style.filter = "none";
-
-            if (themeName.startsWith('modern')) {
-                els.svgProgress.classList.remove('opacity-0');
-                els.physicalResetBtn.classList.add('hidden');
-                els.rippleEffect.classList.remove('hidden');
-                
-                els.lcdScreen.classList.add('bg-transparent', 'h-20');
-                els.targetDisplayBox.classList.add('border', 'shadow-sm', 'backdrop-blur-sm');
-
-                if (themeName === 'modern') {
-                    els.counterDisplay.classList.add('text-7xl', 'font-black', 'bg-clip-text', 'text-transparent', 'bg-gradient-to-b', 'from-islamic-primary', 'to-islamic-dark', 'dark:from-emerald-300', 'dark:to-white', 'drop-shadow-sm', 'pb-1');
-                    els.targetDisplayBox.classList.add('text-islamic-dark', 'dark:text-islamic-light', 'bg-islamic-light', 'dark:bg-slate-700/80', 'border-islamic-primary/20', 'dark:border-slate-600');
-                    els.tasbihShell.classList.add('bg-white/40', 'dark:bg-slate-800/40', 'backdrop-blur-md', 'shadow-[0_8px_30px_rgb(0,0,0,0.04)]', 'dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)]', 'border', 'border-white', 'dark:border-slate-700/50');
-                    els.mainBtn.classList.add('bg-gradient-to-b', 'from-white', 'to-slate-50', 'dark:from-slate-700', 'dark:to-slate-800', 'shadow-[0_15px_35px_-10px_rgba(5,150,105,0.3),inset_0_-4px_10px_rgba(0,0,0,0.05)]', 'dark:shadow-[0_15px_35px_-10px_rgba(0,0,0,0.5),inset_0_-4px_10px_rgba(0,0,0,0.2)]', 'border', 'border-white', 'dark:border-slate-600');
-                } else if (themeName === 'modern-dark') {
-                    els.counterDisplay.classList.add('text-7xl', 'font-black', 'bg-clip-text', 'text-transparent', 'bg-gradient-to-b', 'from-blue-500', 'to-blue-900', 'dark:from-blue-300', 'dark:to-blue-100', 'drop-shadow-sm', 'pb-1');
-                    els.targetDisplayBox.classList.add('text-blue-900', 'dark:text-blue-100', 'bg-blue-50', 'dark:bg-slate-800/80', 'border-blue-200', 'dark:border-slate-700');
-                    els.tasbihShell.classList.add('bg-slate-100/50', 'dark:bg-slate-900/50', 'backdrop-blur-md', 'shadow-[0_8px_30px_rgb(0,0,0,0.08)]', 'dark:shadow-[0_8px_30px_rgb(0,0,0,0.4)]', 'border', 'border-white', 'dark:border-slate-800');
-                    els.mainBtn.classList.add('bg-gradient-to-b', 'from-white', 'to-slate-100', 'dark:from-slate-800', 'dark:to-slate-900', 'shadow-[0_15px_35px_-10px_rgba(59,130,246,0.3),inset_0_-4px_10px_rgba(0,0,0,0.05)]', 'dark:shadow-[0_15px_35px_-10px_rgba(0,0,0,0.5),inset_0_-4px_10px_rgba(0,0,0,0.2)]', 'border', 'border-white', 'dark:border-slate-700');
-                } else if (themeName === 'modern-minimal') {
-                    els.counterDisplay.classList.add('text-7xl', 'font-black', 'text-slate-700', 'dark:text-slate-200', 'pb-1');
-                    els.targetDisplayBox.classList.add('text-slate-600', 'dark:text-slate-300', 'bg-white', 'dark:bg-slate-800', 'border-slate-200', 'dark:border-slate-700');
-                    els.tasbihShell.classList.add('bg-slate-50', 'dark:bg-slate-900', 'shadow-inner', 'border', 'border-slate-200', 'dark:border-slate-800');
-                    els.mainBtn.classList.add('bg-white', 'dark:bg-slate-800', 'shadow-md', 'border', 'border-slate-100', 'dark:border-slate-700');
+                if (changed) {
+                    setStats(newStats);
+                    safeSetItem('tasbih_stats', newStats);
                 }
-            } 
-            else {
-                // Konfigurasi Tema Fisik
-                els.svgProgress.classList.add('opacity-0');
-                els.physicalResetBtn.classList.remove('hidden');
-                els.rippleEffect.classList.add('hidden');
                 
-                els.counterDisplay.classList.add('text-7xl', 'font-digital', 'tracking-widest');
-                els.lcdScreen.classList.add('lcd-screen-bg', 'lcd-shadow', 'border-4', 'border-black/20');
-                els.targetDisplayBox.classList.add('text-black/60', 'font-digital', 'font-bold');
-                
-                els.tasbihShell.classList.add('border-4', 'shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5)]');
-                els.mainBtn.classList.add('bg-gradient-to-b', 'border-2', 'btn-3d-shadow');
-
-                if (themeName === 'fisik-hitam') {
-                    els.tasbihShell.classList.add('theme-physical-black');
-                    els.mainBtn.classList.add('from-gray-600', 'to-gray-800', 'border-gray-500');
-                } else if (themeName === 'fisik-kayu') {
-                    els.tasbihShell.classList.add('theme-physical-wood');
-                    els.mainBtn.classList.add('from-amber-600', 'to-amber-900', 'border-amber-700');
-                } else if (themeName === 'fisik-putih') {
-                    els.tasbihShell.classList.add('theme-physical-putih');
-                    els.tasbihShell.classList.replace('shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5)]', 'shadow-[0_20px_50px_-10px_rgba(0,0,0,0.2)]');
-                    els.mainBtn.classList.add('from-gray-100', 'to-gray-300', 'border-gray-300');
-                } else if (themeName === 'fisik-emas') {
-                    els.tasbihShell.classList.add('theme-physical-emas');
-                    els.mainBtn.classList.add('from-yellow-400', 'to-yellow-600', 'border-yellow-500');
-                } else if (themeName === 'fisik-biru') {
-                    els.tasbihShell.classList.add('theme-physical-biru');
-                    els.mainBtn.classList.add('from-blue-500', 'to-blue-700', 'border-blue-400');
-                } else if (themeName === 'fisik-merah') {
-                    els.tasbihShell.classList.add('theme-physical-merah');
-                    els.mainBtn.classList.add('from-red-500', 'to-red-700', 'border-red-400');
-                } else if (themeName === 'fisik-hijau') {
-                    els.tasbihShell.classList.add('theme-physical-hijau');
-                    els.mainBtn.classList.add('from-green-600', 'to-green-800', 'border-green-500');
+                if (lastDates.date !== curDate) {
+                    const newDates = { month: curMonth, week: curWeek, date: curDate };
+                    setLastDates(newDates);
+                    safeSetItem('tasbih_dates', newDates);
                 }
-            }
-            updateUI();
-            saveToLocal();
+            }, []);
+
+            // --- AUDIO & VIBRATION ---
+            const playSound = useCallback((isTargetReached = false) => {
+                if (!audioEnabled) return;
+                
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!audioCtxRef.current) audioCtxRef.current = new AudioContext();
+                const audioCtx = audioCtxRef.current;
+                
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+
+                const time = audioCtx.currentTime;
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+
+                if (isTargetReached) {
+                    oscillator.type = 'sine';
+                    oscillator.frequency.setValueAtTime(523.25, time); // C5
+                    oscillator.frequency.setValueAtTime(659.25, time + 0.1); // E5
+                    oscillator.frequency.setValueAtTime(783.99, time + 0.2); // G5
+                    gainNode.gain.setValueAtTime(0, time);
+                    gainNode.gain.linearRampToValueAtTime(0.3, time + 0.05);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, time + 0.5);
+                    oscillator.start(time);
+                    oscillator.stop(time + 0.5);
+                } else {
+                    oscillator.type = 'sine';
+                    oscillator.frequency.setValueAtTime(800, time);
+                    oscillator.frequency.exponentialRampToValueAtTime(50, time + 0.05);
+                    gainNode.gain.setValueAtTime(0.4, time);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, time + 0.05);
+                    oscillator.start(time);
+                    oscillator.stop(time + 0.05);
+                }
+            }, [audioEnabled]);
+
+            const triggerVibration = useCallback((isTargetReached = false) => {
+                if (!navigator.vibrate) return;
+                if (isTargetReached) navigator.vibrate([100, 50, 100]);
+                else navigator.vibrate(30);
+            }, []);
+
+            // --- EVENT HANDLERS ---
+            const handleTap = useCallback((e) => {
+                if (e) e.preventDefault();
+                
+                // Animation Trigger
+                setAnimatingTap(true);
+                setTimeout(() => setAnimatingTap(false), 150);
+
+                const newCount = count + 1;
+                setCount(newCount);
+                safeSetItem('tasbih_count', newCount);
+
+                // Update Stats
+                setStats(prev => {
+                    const dzikirStats = prev[currentDzikir] || { daily: 0, weekly: 0, monthly: 0 };
+                    const newStats = {
+                        ...prev,
+                        [currentDzikir]: {
+                            daily: dzikirStats.daily + 1,
+                            weekly: dzikirStats.weekly + 1,
+                            monthly: dzikirStats.monthly + 1
+                        }
+                    };
+                    safeSetItem('tasbih_stats', newStats);
+                    return newStats;
+                });
+
+                const isReached = newCount === target;
+                playSound(isReached);
+                triggerVibration(isReached);
+
+                if (isReached) {
+                    setShowTargetReached(true);
+                    setTimeout(() => setShowTargetReached(false), 2500);
+                    setTimeout(() => {
+                        setCount(0);
+                        safeSetItem('tasbih_count', 0);
+                    }, 600);
+                }
+            }, [count, target, currentDzikir, playSound, triggerVibration]);
+
+            const resetSession = () => {
+                setCount(0);
+                safeSetItem('tasbih_count', 0);
+                triggerVibration(false);
+            };
+
+            const resetAllStats = () => {
+                if(window.confirm("Apakah Anda yakin ingin menghapus semua data statistik zikir?")) {
+                    setStats(defaultStats);
+                    setCount(0);
+                    safeSetItem('tasbih_stats', defaultStats);
+                    safeSetItem('tasbih_count', 0);
+                    setIsSettingsOpen(false);
+                }
+            };
+
+            // Menutup Modal jika klik area backdrop (di luar panel)
+            const handleCloseModal = (e) => {
+                if (e.target.id === 'modal-backdrop') {
+                    setIsSettingsOpen(false);
+                }
+            };
+
+            // Progress Circle Calculation
+            const radius = 46;
+            const circumference = 2 * Math.PI * radius;
+            const percent = target > 0 ? Math.min((count / target) * 100, 100) : 0;
+            const strokeDashoffset = circumference - (percent / 100) * circumference;
+
+            // Get Active Shape
+            const activeShape = SHAPES.find(s => s.id === activeShapeId) || SHAPES[0];
+
+            return (
+                <div className={`min-h-screen transition-colors duration-1000 ${theme.bg} ${theme.text} font-sans pb-10 flex flex-col`}>
+                    
+                    {/* --- SPLASH SCREEN --- */}
+                    {showSplash && (
+                        <div className={`fixed inset-0 z-[200] flex flex-col items-center justify-center bg-gradient-splash transition-opacity duration-1000 ${splashFading ? 'opacity-0' : 'opacity-100'}`}>
+                            {/* Logo Google Drive */}
+                            <img 
+                                src="https://lh3.googleusercontent.com/d/1HMSu1rIUBGKu1HWaxicN66rQp_sS24PG" 
+                                alt="Logo Tasbih" 
+                                className="w-40 h-40 object-contain animate-pulse-slow drop-shadow-2xl mb-6"
+                                onError={(e) => { e.target.style.display = 'none'; }} // Jika gambar gagal muat
+                            />
+                            <h1 className="text-3xl font-extrabold text-white tracking-widest drop-shadow-lg">
+                                TASBIH
+                            </h1>
+                            <p className="text-white/90 font-medium tracking-[0.3em] text-sm mt-1">
+                                PREMIUM
+                            </p>
+                        </div>
+                    )}
+
+                    {/* --- HEADER --- */}
+                    <div className="pt-6 md:pt-10 px-4 max-w-4xl mx-auto w-full flex justify-between items-center z-20">
+                        <div className="flex items-center gap-2">
+                            <div className="w-10 h-10 rounded-xl bg-gradient-feminine shadow-[0_4px_15px_rgb(140,82,255,0.4)] flex items-center justify-center text-white">
+                                <IconActivity className="w-5 h-5" />
+                            </div>
+                            <div>
+                                <h1 className="font-bold text-lg leading-tight text-gradient">Tasbih Premium</h1>
+                                <p className={`text-[10px] md:text-xs ${theme.textMuted}`}>Fokus & Ikhlas</p>
+                            </div>
+                        </div>
+
+                        <div className="flex gap-2">
+                            <button onClick={() => setAudioEnabled(!audioEnabled)} className={`p-2.5 rounded-full backdrop-blur-md transition-all shadow-md hover:scale-105 ${isDarkMode ? 'bg-[#2d1b4e]/80 text-secondary hover:bg-[#2d1b4e]' : 'bg-white/90 text-primary hover:bg-fuchsia-100'}`}>
+                                {audioEnabled ? <IconVolume2 className="w-5 h-5" /> : <IconVolumeX className="w-5 h-5" />}
+                            </button>
+                            <button onClick={() => setIsDarkMode(!isDarkMode)} className={`p-2.5 rounded-full backdrop-blur-md transition-all shadow-md hover:scale-105 ${isDarkMode ? 'bg-[#2d1b4e]/80 text-secondary hover:bg-[#2d1b4e]' : 'bg-white/90 text-primary hover:bg-fuchsia-100'}`}>
+                                {isDarkMode ? <IconSun className="w-5 h-5" /> : <IconMoon className="w-5 h-5" />}
+                            </button>
+                            <button onClick={() => setIsSettingsOpen(true)} className={`p-2.5 rounded-full backdrop-blur-md transition-all shadow-md hover:scale-105 ${isDarkMode ? 'bg-[#2d1b4e]/80 text-secondary hover:bg-[#2d1b4e]' : 'bg-white/90 text-primary hover:bg-fuchsia-100'}`}>
+                                <IconSettings className="w-5 h-5" />
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* --- MAIN CONTENT --- */}
+                    <main className="flex-1 w-full max-w-md mx-auto mt-6 md:mt-10 px-4 flex flex-col relative z-10">
+                        
+                        <div className="text-center mb-6">
+                            {userName && (
+                                <p className={`font-semibold mb-1 text-sm md:text-base ${isDarkMode ? 'text-secondary' : 'text-primary'}`}>
+                                    Assalamu'alaikum, {userName} ✨
+                                </p>
+                            )}
+                        </div>
+
+                        {/* Controls Panel (Target & Dzikir) */}
+                        <div className={`${theme.panel} backdrop-blur-md rounded-2xl p-4 md:p-5 mb-8 border flex items-center justify-between gap-3 relative z-20`}>
+                            <div className="flex-1">
+                                <label className={`block text-[10px] uppercase tracking-wider font-semibold ${theme.textMuted} mb-1 ml-1`}>Jenis Zikir</label>
+                                <select 
+                                    value={currentDzikir}
+                                    onChange={(e) => { 
+                                        setCurrentDzikir(e.target.value); 
+                                        safeSetItem('tasbih_current', e.target.value);
+                                        setCount(0); 
+                                        safeSetItem('tasbih_count', 0);
+                                    }}
+                                    className={`w-full ${theme.inputBg} rounded-xl px-3 py-2 text-sm font-semibold appearance-none border-transparent outline-none transition-all cursor-pointer`}
+                                >
+                                    {Object.keys(defaultStats).map(dzikir => (
+                                        <option key={dzikir} value={dzikir}>{dzikir}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="w-24 shrink-0">
+                                <label className={`block text-[10px] uppercase tracking-wider font-semibold ${theme.textMuted} mb-1 ml-1 flex items-center gap-1`}><IconTarget className="w-3 h-3"/> Target</label>
+                                <div className={`relative ${theme.inputBg} rounded-xl border-transparent flex items-center overflow-hidden`}>
+                                    <input 
+                                        type="number" 
+                                        min="1"
+                                        value={target}
+                                        onChange={(e) => {
+                                            const val = parseInt(e.target.value) || 1;
+                                            setTarget(val);
+                                            safeSetItem('tasbih_target', val);
+                                        }}
+                                        className={`w-full bg-transparent px-2 py-2 text-sm font-bold text-center focus:outline-none`}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Tasbih Main Tap Area */}
+                        <div className={`${theme.panel} backdrop-blur-md rounded-[3rem] p-8 pb-10 flex flex-col items-center justify-center relative border shadow-2xl overflow-hidden`}>
+                            {/* Decorative Blobs */}
+                            <div className="absolute -top-20 -right-20 w-48 h-48 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+                            <div className="absolute -bottom-20 -left-20 w-48 h-48 bg-secondary/10 rounded-full blur-3xl pointer-events-none"></div>
+                            
+                            {/* Target Notification Overlay */}
+                            <div className={`absolute top-4 left-0 w-full flex justify-center transition-all duration-500 z-30 ${showTargetReached ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'}`}>
+                                <div className="bg-gradient-feminine text-white px-4 py-1.5 rounded-full text-xs font-bold shadow-lg flex items-center gap-1.5 animate-bounce">
+                                    <IconCheckCircle className="w-4 h-4"/> Target Tercapai!
+                                </div>
+                            </div>
+
+                            {/* Reset Button */}
+                            <button 
+                                onClick={resetSession}
+                                className={`absolute top-6 right-6 p-2 rounded-full backdrop-blur-sm transition-all hover:rotate-180 z-20 ${isDarkMode ? 'bg-[#1a1128]/50 text-fuchsia-300 hover:text-white' : 'bg-fuchsia-100/50 text-primary hover:bg-fuchsia-200'}`}
+                                title="Reset Penghitung"
+                            >
+                                <IconRefresh className="w-4 h-4" />
+                            </button>
+
+                            {/* Count Display */}
+                            <div className="h-24 flex items-end justify-center mb-6 relative z-10">
+                                <span className="text-7xl md:text-8xl font-bold font-digital tracking-tighter text-gradient drop-shadow-sm leading-none">
+                                    {count}
+                                </span>
+                            </div>
+
+                            {/* Progress Ring & Dynamic Shape Button */}
+                            <div className="relative w-[220px] h-[220px] flex items-center justify-center z-10">
+                                {/* SVG Ring (Selalu di luar membingkai bentuk di dalam) */}
+                                <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100">
+                                    <circle 
+                                        cx="50" cy="50" r={radius} 
+                                        fill="none" strokeWidth="3" 
+                                        className={theme.circleBg} 
+                                    />
+                                    <circle 
+                                        cx="50" cy="50" r={radius} 
+                                        fill="none" strokeWidth="4" strokeLinecap="round" 
+                                        className="stroke-primary progress-ring__circle" 
+                                        style={{
+                                            strokeDasharray: circumference,
+                                            strokeDashoffset: strokeDashoffset,
+                                            filter: isDarkMode ? 'drop-shadow(0px 0px 8px rgba(140,82,255,0.6))' : 'drop-shadow(0px 4px 6px rgba(140,82,255,0.3))'
+                                        }}
+                                    />
+                                </svg>
+
+                                {/* Main Tap Button - Dynamic Shape */}
+                                <button 
+                                    onClick={handleTap}
+                                    onTouchStart={handleTap}
+                                    className={`relative bg-gradient-feminine text-white flex items-center justify-center overflow-hidden group outline-none select-none touch-manipulation transform transition-all duration-200 ${animatingTap ? 'scale-95 shadow-inner' : 'scale-100 shadow-[0_15px_35px_rgba(140,82,255,0.4)]'} ${activeShape.class}`}
+                                >
+                                    {/* Ripple Layer */}
+                                    <div className={`absolute inset-0 bg-white/20 transition-opacity duration-150 ${animatingTap ? 'opacity-100' : 'opacity-0'}`}></div>
+                                    
+                                    {/* Inner Text with optional counter-rotation */}
+                                    <span className={`text-2xl font-bold tracking-widest uppercase opacity-90 drop-shadow-md z-10 ${activeShape.innerClass}`}>
+                                        TAP
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+
+                    </main>
+
+                    {/* --- STATISTICS SECTION --- */}
+                    <div className="w-full max-w-md mx-auto px-4 mt-8 relative z-10">
+                        <div className="flex items-center justify-between mb-4 px-1">
+                            <h3 className={`text-sm md:text-base font-bold ${theme.text} text-gradient`}>
+                                Statistik: {currentDzikir}
+                            </h3>
+                        </div>
+                        <div className="grid grid-cols-3 gap-3 md:gap-4">
+                            <div className={`${theme.card} backdrop-blur-sm rounded-2xl p-3 md:p-4 text-center transition-all duration-300 border`}>
+                                <span className={`block text-[10px] uppercase tracking-wider font-semibold ${theme.textMuted} mb-1`}>Hari Ini</span>
+                                <span className="text-xl md:text-2xl font-bold font-digital text-primary">{stats[currentDzikir]?.daily || 0}</span>
+                            </div>
+                            <div className={`${theme.card} backdrop-blur-sm rounded-2xl p-3 md:p-4 text-center transition-all duration-300 border`}>
+                                <span className={`block text-[10px] uppercase tracking-wider font-semibold ${theme.textMuted} mb-1`}>Pekan Ini</span>
+                                <span className="text-xl md:text-2xl font-bold font-digital text-primary">{stats[currentDzikir]?.weekly || 0}</span>
+                            </div>
+                            <div className={`${isDarkMode ? 'bg-primary/20 border-primary/30' : 'bg-fuchsia-100 border-secondary'} rounded-2xl p-3 md:p-4 text-center transition-all duration-300 border shadow-inner`}>
+                                <span className={`block text-[10px] uppercase tracking-wider font-bold ${isDarkMode ? 'text-secondary' : 'text-primary'} mb-1`}>Bulan Ini</span>
+                                <span className="text-xl md:text-2xl font-bold font-digital text-gradient">{stats[currentDzikir]?.monthly || 0}</span>
+                            </div>
+                        </div>
+                        <p className={`text-[10px] mt-4 text-center ${theme.textMuted} flex items-center justify-center gap-1 opacity-80`}>
+                            <IconActivity className="w-3 h-3" /> Data direset otomatis sesuai periode berjalan.
+                        </p>
+                    </div>
+
+                    {/* --- MODAL SETTINGS (10 BENTUK & PENGATURAN) --- */}
+                    {isSettingsOpen && (
+                        <div 
+                            id="modal-backdrop"
+                            onClick={handleCloseModal}
+                            className="fixed inset-0 z-50 flex items-center justify-center bg-[#1a1128]/80 backdrop-blur-sm p-4 animate-[fadeIn_0.2s_ease-out_forwards] cursor-pointer"
+                        >
+                            <div className={`${theme.panel} border w-full max-w-md rounded-3xl p-6 relative shadow-2xl animate-[scaleIn_0.2s_ease-out_forwards] overflow-hidden max-h-[90vh] overflow-y-auto cursor-default`}>
+                                {/* Abstract Decoration */}
+                                <div className="absolute -top-32 -right-32 w-64 h-64 bg-primary/20 rounded-full blur-3xl pointer-events-none"></div>
+                                <div className="absolute -bottom-32 -left-32 w-64 h-64 bg-secondary/20 rounded-full blur-3xl pointer-events-none"></div>
+
+                                {/* Tombol Tutup Maksimal */}
+                                <button 
+                                    onClick={() => setIsSettingsOpen(false)} 
+                                    className={`absolute top-4 right-4 p-2 rounded-full hover:bg-fuchsia-500/20 transition-colors z-20 ${theme.text}`}
+                                >
+                                    <IconX className="w-6 h-6" />
+                                </button>
+
+                                <h2 className={`text-xl font-bold mb-6 flex items-center gap-2 text-gradient border-b ${theme.border} pb-3 relative z-10`}>
+                                    <IconSettings className="w-6 h-6 text-primary" /> Pengaturan
+                                </h2>
+
+                                <div className="space-y-5 relative z-10">
+                                    {/* IDENTITAS */}
+                                    <div>
+                                        <h3 className={`font-semibold ${theme.text} mb-2 flex items-center gap-2 text-sm`}><IconUser className="w-4 h-4 text-primary" /> Nama Pengguna</h3>
+                                        <input 
+                                            type="text" value={userName} 
+                                            onChange={(e) => { setUserName(e.target.value); safeSetItem('tasbih_user_name', e.target.value); }}
+                                            className={`w-full ${theme.inputBg} rounded-xl px-4 py-2 border text-sm focus:ring-2 focus:ring-primary/50 outline-none transition-all`}
+                                            placeholder="Masukkan Nama Anda"
+                                        />
+                                    </div>
+
+                                    {/* TEMA BENTUK TASBIH (10 OPSI) */}
+                                    <div className={`p-4 rounded-xl border ${theme.border} bg-fuchsia-500/5`}>
+                                        <h3 className={`font-semibold ${theme.text} mb-3 flex items-center gap-2 text-sm`}>
+                                            <IconActivity className="w-4 h-4 text-primary" /> 10 Bentuk Tasbih
+                                        </h3>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {SHAPES.map(shape => (
+                                                <button
+                                                    key={shape.id}
+                                                    onClick={() => { setActiveShapeId(shape.id); safeSetItem('tasbih_shape_id', shape.id); }}
+                                                    className={`py-2 px-3 text-xs md:text-sm rounded-lg font-medium transition-all text-left border ${
+                                                        activeShapeId === shape.id 
+                                                        ? 'bg-gradient-feminine text-white shadow-md border-transparent' 
+                                                        : `${isDarkMode ? 'bg-[#1a1128] text-slate-300 border-primary/20 hover:bg-[#2d1b4e]' : 'bg-white text-slate-600 border-fuchsia-200 hover:bg-fuchsia-50'}`
+                                                    }`}
+                                                >
+                                                    {shape.name}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* SUARA & GETARAN */}
+                                    <div className={`p-4 rounded-xl border ${theme.border} bg-fuchsia-500/5`}>
+                                        <div className="flex justify-between items-center">
+                                            <h3 className={`font-semibold ${theme.text} flex items-center gap-2 text-sm`}>
+                                                {audioEnabled ? <IconVolume2 className="w-4 h-4 text-primary" /> : <IconVolumeX className="w-4 h-4 text-rose-500" />} 
+                                                Suara & Getaran
+                                            </h3>
+                                            <label className="relative inline-flex items-center cursor-pointer">
+                                                <input type="checkbox" className="sr-only peer" checked={audioEnabled} onChange={(e) => { setAudioEnabled(e.target.checked); safeSetItem('tasbih_audio', e.target.checked); }} />
+                                                <div className="w-10 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                                            </label>
+                                        </div>
+                                        <p className={`text-[10px] mt-1.5 ${theme.textMuted}`}>Mainkan suara saat tap dan capai target.</p>
+                                    </div>
+
+                                    {/* RESET DATA */}
+                                    <div className={`p-4 rounded-xl border border-rose-500/30 bg-rose-500/5 mt-6`}>
+                                        <h3 className={`font-semibold text-rose-500 flex items-center gap-2 text-sm mb-2`}>
+                                            <IconRefresh className="w-4 h-4" /> Reset Data
+                                        </h3>
+                                        <p className={`text-[10px] mb-3 ${theme.textMuted}`}>Hapus semua riwayat statistik zikir (harian, pekanan, bulanan).</p>
+                                        <button onClick={resetAllStats} className="w-full bg-rose-500 hover:bg-rose-600 text-white font-semibold py-2 rounded-xl text-xs transition-colors shadow-sm">
+                                            Reset Semua Statistik
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
         }
 
-        // --- AUDIO & VIBRATION ---
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        let audioCtx;
-
-        function playClickSound(isTargetReached = false) {
-            if (appData.soundMode === 0) return; // Muted
-
-            if (!audioCtx) audioCtx = new AudioContext();
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-
-            const time = audioCtx.currentTime;
-            const oscillator = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
-
-            oscillator.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-
-            if (isTargetReached) {
-                // Melodi target tercapai
-                oscillator.type = 'sine';
-                oscillator.frequency.setValueAtTime(523.25, time); // C5
-                oscillator.frequency.setValueAtTime(659.25, time + 0.1); // E5
-                oscillator.frequency.setValueAtTime(783.99, time + 0.2); // G5
-                gainNode.gain.setValueAtTime(0, time);
-                gainNode.gain.linearRampToValueAtTime(0.3, time + 0.05);
-                gainNode.gain.exponentialRampToValueAtTime(0.001, time + 0.5);
-                oscillator.start(time);
-                oscillator.stop(time + 0.5);
-            } else {
-                // Suara mechanical click murni
-                oscillator.type = 'sine';
-                oscillator.frequency.setValueAtTime(800, time);
-                oscillator.frequency.exponentialRampToValueAtTime(50, time + 0.05);
-                gainNode.gain.setValueAtTime(0.5, time);
-                gainNode.gain.exponentialRampToValueAtTime(0.001, time + 0.05);
-                oscillator.start(time);
-                oscillator.stop(time + 0.05);
-            }
-        }
-
-        function triggerVibration(isTargetReached = false) {
-            if (!navigator.vibrate) return;
-            if (isTargetReached) navigator.vibrate([100, 50, 100]);
-            else navigator.vibrate(30);
-        }
-
-        // --- HANDLERS ---
-        function handleTap() {
-            checkAndResetDates(false);
-            let dzikir = appData.currentDzikir;
-            
-            appData.count++;
-            appData.stats[dzikir].daily++;
-            appData.stats[dzikir].weekly++;
-            appData.stats[dzikir].monthly++;
-            
-            const isTargetReached = appData.count === appData.target;
-            
-            playClickSound(isTargetReached);
-            triggerVibration(isTargetReached);
-            updateUI();
-            saveToLocal();
-
-            if (isTargetReached) {
-                setTimeout(() => {
-                    appData.count = 0;
-                    updateUI();
-                    saveToLocal();
-                }, 600);
-            }
-        }
-
-        function resetSession() {
-            appData.count = 0;
-            updateUI();
-            saveToLocal();
-            triggerVibration(false);
-        }
-
-        function showNotif(title, text) {
-            els.notifTitle.innerText = title;
-            els.notifText.innerText = text;
-            els.notifModal.classList.remove('hidden');
-            els.notifModal.classList.add('flex');
-        }
-
-        // --- EVENT LISTENERS ---
-        els.mainBtn.addEventListener('click', handleTap);
-        els.mainBtn.addEventListener('touchstart', (e) => { e.preventDefault(); handleTap(); }, {passive: false});
-        els.btnReset.addEventListener('click', resetSession);
-        els.physicalResetBtn.addEventListener('click', resetSession);
-        
-        els.targetInput.addEventListener('input', (e) => {
-            const val = parseInt(e.target.value);
-            appData.target = val > 0 ? val : 1;
-            updateUI();
-            saveToLocal();
-        });
-
-        els.dzikirSelect.addEventListener('change', () => {
-            appData.currentDzikir = els.dzikirSelect.value;
-            appData.count = 0; // Reset sesi berjalan kalau ganti zikir
-            updateUI();
-            saveToLocal();
-        });
-
-        els.themeSelect.addEventListener('change', (e) => { applyTheme(e.target.value); });
-
-        els.btnCloseNotif.addEventListener('click', () => {
-            els.notifModal.classList.add('hidden');
-            els.notifModal.classList.remove('flex');
-        });
-
-        els.btnSound.addEventListener('click', () => {
-            appData.soundMode = appData.soundMode === 1 ? 0 : 1;
-            els.iconSoundClick.classList.toggle('hidden', appData.soundMode === 0);
-            els.iconSoundOff.classList.toggle('hidden', appData.soundMode === 1);
-            saveToLocal();
-            if (appData.soundMode === 1) playClickSound();
-        });
-
-        // --- START APP ---
-        function initApp() {
-            loadFromLocal();
-            checkAndResetDates(true);
-            applyTheme(appData.theme);
-            
-            // Set toggle UI sound awal
-            els.iconSoundClick.classList.toggle('hidden', appData.soundMode === 0);
-            els.iconSoundOff.classList.toggle('hidden', appData.soundMode === 1);
-            
-            updateUI();
-        }
-
-        initApp();
-
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
     </script>
 </body>
 </html>
